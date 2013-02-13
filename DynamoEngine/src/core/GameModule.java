@@ -1,14 +1,15 @@
+package core;
 
-public class gameModule {
+public class GameModule {
 
-	public static pathModule pathfinding ;
-	public static objectModule objects;
-	public static aiModule unitai;
+	public static PathModule pathfinding ;
+	public static ObjectModule objects;
+	public static AiModule unitai;
 	
-	public gameModule(){
-		pathfinding = new pathModule();
-		objects = new objectModule();
-		unitai = new aiModule();
+	public GameModule(){
+		pathfinding = new PathModule();
+		objects = new ObjectModule();
+		unitai = new AiModule();
 	}
 	
 	public void updateFromInput(/*inputtype i*/){

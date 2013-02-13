@@ -1,7 +1,8 @@
+package core;
 
-public class pathModule {
+public class PathModule {
 
-	public pathModule(){
+	public PathModule(){
 		
 	}
 	
