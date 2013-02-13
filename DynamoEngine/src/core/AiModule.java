@@ -1,7 +1,8 @@
+package core;
 
-public class aiModule {
+public class AiModule {
 	
-	public aiModule(){
+	public AiModule(){
 		
 	}
 	

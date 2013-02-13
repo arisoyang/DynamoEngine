@@ -1,8 +1,9 @@
+package core;
 
 
-public class inputMap { 
+public class InputMap { 
 	
-	public void addKeyboardMap(int key, gameAction ga){
+	public void addKeyboardMap(int key, GameAction ga){
 		
 	}
 	/*
@@ -13,7 +14,7 @@ public class inputMap {
 		
 	}
 	*/
-	public void addMouseButtonMap(int button, gameAction ga){
+	public void addMouseButtonMap(int button, GameAction ga){
 		
 	}
 	/*
@@ -23,7 +24,7 @@ public class inputMap {
 	*/
 	
 	
-	public gameInput getInput(){
+//	public gameInput getInput(){
 		//return the information about what is currently going on in the game
-	}
+//	}
 }

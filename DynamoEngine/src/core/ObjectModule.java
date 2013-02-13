@@ -1,7 +1,8 @@
+package core;
 
-public class objectModule {
+public class ObjectModule {
 
-	public objectModule(){
+	public ObjectModule(){
 		
 	}
 	

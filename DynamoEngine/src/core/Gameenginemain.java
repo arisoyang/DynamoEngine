@@ -1,13 +1,14 @@
+package core;
 
 import java.util.Date;
 
-public class gameenginemain {
+public class Gameenginemain {
 
 	/**
 	 * @param args
 	 */
 	
-	public static gameModule game = new gameModule();
+	public static GameModule game = new GameModule();
 	
 	
 	public static void main(String[] args) {
