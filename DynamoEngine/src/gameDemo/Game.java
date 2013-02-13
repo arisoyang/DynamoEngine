@@ -1,8 +1,14 @@
-package core;
+package gameDemo;
 
+import inputters.KeyboardInput;
+import inputters.MouseInput;
+
+import java.awt.event.KeyEvent;
 import java.util.Date;
 
-public class Gameenginemain {
+import core.GameModule;
+
+public class Game {
 
 	/**
 	 * @param args
@@ -19,9 +25,10 @@ public class Gameenginemain {
 		boolean need_to_redraw = true; 
 		boolean quit = false;
 		
-
+		
 		while (!quit) { 
-
+			
+			//System.pollForOSMessages();
 			
 			//need to tie this in with inputMap in some way still
 			
@@ -42,7 +49,11 @@ public class Gameenginemain {
 			    } 
 			} 	
 			 */
+			//updates mouse and keyboard input (by default)
 			
+			
+			quit=game.updateFromInput();
+		
 			long cur_time = new Date().getTime(); 
 			int frames = 0; 
 			while (cur_time - time >= REDRAWING_PERIOD && frames<MAX_FRAME_SKIP){
@@ -65,7 +76,8 @@ public class Gameenginemain {
 				time = cur_time; 
 			}
 			if (need_to_redraw) { 
-				//game->draw(); 
+				//game->draw();
+				game.render();
 				need_to_redraw=false; 
 			} 
 			
