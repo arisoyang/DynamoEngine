@@ -1,8 +1,12 @@
 package core;
 
+import inputters.KeyboardInput;
+import inputters.MouseInput;
+
+import java.awt.event.KeyEvent;
 import java.util.Date;
 
-public class Gameenginemain {
+public class GameEngineMain {
 
 	/**
 	 * @param args
@@ -18,10 +22,15 @@ public class Gameenginemain {
 		int MAX_FRAME_SKIP = 10; 
 		boolean need_to_redraw = true; 
 		boolean quit = false;
+		KeyboardInput keyboard;
+		MouseInput mouse;
 		
-
+		keyboard=new KeyboardInput();
+		mouse = new MouseInput();
+		
 		while (!quit) { 
-
+			
+			//System.pollForOSMessages();
 			
 			//need to tie this in with inputMap in some way still
 			
@@ -42,6 +51,15 @@ public class Gameenginemain {
 			    } 
 			} 	
 			 */
+			//updates mouse and keyboard input (by default)
+			
+			
+			if(keyboard.keyDown(KeyEvent.VK_ESCAPE)){
+				quit=true;
+				break;
+			}
+		
+			//render?
 			
 			long cur_time = new Date().getTime(); 
 			int frames = 0; 
