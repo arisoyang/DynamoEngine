@@ -1,4 +1,4 @@
-package core;
+package gameDemo;
 
 import inputters.KeyboardInput;
 import inputters.MouseInput;
@@ -6,7 +6,9 @@ import inputters.MouseInput;
 import java.awt.event.KeyEvent;
 import java.util.Date;
 
-public class GameEngineMain {
+import core.GameModule;
+
+public class Game {
 
 	/**
 	 * @param args
@@ -22,11 +24,7 @@ public class GameEngineMain {
 		int MAX_FRAME_SKIP = 10; 
 		boolean need_to_redraw = true; 
 		boolean quit = false;
-		KeyboardInput keyboard;
-		MouseInput mouse;
 		
-		keyboard=new KeyboardInput();
-		mouse = new MouseInput();
 		
 		while (!quit) { 
 			
@@ -54,13 +52,8 @@ public class GameEngineMain {
 			//updates mouse and keyboard input (by default)
 			
 			
-			if(keyboard.keyDown(KeyEvent.VK_ESCAPE)){
-				quit=true;
-				break;
-			}
+			quit=game.updateFromInput();
 		
-			//render?
-			
 			long cur_time = new Date().getTime(); 
 			int frames = 0; 
 			while (cur_time - time >= REDRAWING_PERIOD && frames<MAX_FRAME_SKIP){
@@ -83,7 +76,8 @@ public class GameEngineMain {
 				time = cur_time; 
 			}
 			if (need_to_redraw) { 
-				//game->draw(); 
+				//game->draw();
+				game.render();
 				need_to_redraw=false; 
 			} 
 			
