@@ -1,6 +1,5 @@
 package Tools;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -10,7 +9,7 @@ import java.util.HashMap;
  */
 public class MapGenerator {
 
-	private ArrayList<ArrayList<Integer>> heightMap;
+	private int[][] heightMap;
 	private int length, width, tilesPer;
 	
 	
@@ -25,11 +24,12 @@ public class MapGenerator {
 		this.length=length;
 		this.width=width;
 		this.tilesPer=tilesPer;
-		heightMap=new ArrayList(length);
-		ArrayList<Integer> newArrayList;
+		heightMap=new int[length][width];
 		for (int i=0;i<length;i++){
-			newArrayList=new ArrayList(width);
-			heightMap.add(newArrayList);
+			for(int j=0;j<width;j++){
+				heightMap[i][j]=0;
+			}
+		
 		}
 	}
 	
@@ -38,6 +38,34 @@ public class MapGenerator {
 	 */
 	private void generateHeightMap(){
 		
+	}
+	private void evolutionary(){
+		evolutionary(100,20,2);
+	}
+	private void evolutionary(int numIter){
+		evolutionary(numIter,20,2);
+	}
+	private void evolutionary(int numIter, int popSize){
+		evolutionary(numIter,popSize,2);
+	}
+	
+	private void evolutionary(int numIter, int popSize, int numMut){
+		
+		
+	}
+	private void selection(){
+		
+	}
+	private void crossover(){
+		
+	}
+	private void mutation(){
+		
+	}
+	private double fitness(){
+		double fitness=0;
+		
+		return fitness;
 	}
 	/**
 	 * Simulates the flow of water on the map
