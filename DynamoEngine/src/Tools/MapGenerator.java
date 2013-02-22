@@ -186,12 +186,22 @@ public class MapGenerator {
 	}
 	
 	private void sort(double[] array){
+		String arr="";
+		for (double d:array){
+			arr+=" "+d;
+		}
+		System.out.println("before: "+arr);
 		for(int i=0;i<array.length;i++){
-			for(int j=1;j<array.length;j++){
+			for(int j=array.length-1;j>i;j--){
 				if(array[i]<array[j])
 					swap(array,i,j);
 			}
 		}
+		arr="";
+		for (double d:array){
+			arr+=" "+d;
+		}
+		System.out.println("after: "+arr);
 	}
 	private void swap(double[] array, int i,int j){
 		double temp=array[i];
@@ -239,10 +249,10 @@ public class MapGenerator {
 		// TODO Auto-generated method stub
 		
 		MapGenerator mg= new MapGenerator(7,10,10,20);
-		mg.evolutionary(100000,5);
+		mg.evolutionary(10,5);
 		System.out.println(mg.fitness(mg.bestSol()));
 		System.out.println(mg.stringBestSol());
-		System.out.println(mg.getPreviousBestSol());
+//		System.out.println(mg.getPreviousBestSol());
 	}
 
 }
