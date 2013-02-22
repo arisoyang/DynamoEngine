@@ -12,22 +12,28 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	
 	private boolean[] state;
 	private KeyState[] keys;
+	private KeyState[] keys_prev;
 	private Point mousePos;
 	private Point currentPos;
+	private Point lastPos;
 	
 	
 	public MouseInput(){
 		mousePos = new Point(0,0);
 		currentPos = new Point (0,0);
+		lastPos = new Point (0,0);
 		state = new boolean[ NUMKEYS ];
 	    keys = new KeyState[ NUMKEYS ];
+	    keys_prev = new KeyState[ NUMKEYS ];
 	    for (int i =0;i<NUMKEYS;i++){
 	    	keys[i]=KeyState.RELEASED;
+	    	keys_prev[i]=KeyState.RELEASED;
 	    }
 	}
 	public void poll(){
 		mousePos = new Point( currentPos );
 		for (int i=0;i<NUMKEYS;i++){
+			//System.out.println(i+" "+state[i]);
 			if(state[i]){
 				if(keys[i]==KeyState.RELEASED){
 					keys[i]=KeyState.TAPPED;
@@ -45,6 +51,25 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	public Point getPosition(){
 		return mousePos;
 	}
+	public KeyState getButtonState (int code){
+		return keys[code];
+	}
+	public boolean mouseMoved (){
+		boolean changed = false;
+		if(!lastPos.equals(currentPos)){
+			changed = true;
+		}
+		lastPos = currentPos;
+		return changed;
+	}
+	public boolean buttonChanged (int code){
+		boolean changed = false;
+		if(keys_prev[code]!=keys[code]){
+			changed = true;
+		}
+		keys_prev[code] = keys[code];
+		return changed;
+	}
 	public boolean buttonDown (int code){
 		if(keys[code]==KeyState.PRESSED || keys[code]==KeyState.TAPPED){
 			return true;
@@ -59,8 +84,7 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// not needed??
-		
+		// not needed??		
 	}
 
 	@Override
@@ -90,6 +114,11 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	}
 	public void mouseMoved(MouseEvent e){
 		currentPos=e.getPoint();
+		//this may need to be removed
+		currentPos.y -= 25;
+		if (currentPos.y < 0){
+			currentPos.y = 0;
+		}
 	}
 
 }

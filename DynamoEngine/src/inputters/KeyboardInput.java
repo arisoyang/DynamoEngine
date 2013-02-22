@@ -13,12 +13,15 @@ public class KeyboardInput implements KeyListener {
 	
 	private boolean[] currentKeys;
 	private KeyState[] keys;
+	private KeyState[] keys_prev;
 	
 	public KeyboardInput(){
 		currentKeys=new boolean[NUMKEYS];
 		keys = new KeyState[NUMKEYS];
+		keys_prev = new KeyState[NUMKEYS];
 		for(int i=0;i<NUMKEYS;i++){
 			keys[i]=KeyState.RELEASED;
+			keys_prev[i]=KeyState.RELEASED;
 		}
 	}
 	
@@ -36,6 +39,19 @@ public class KeyboardInput implements KeyListener {
 				keys[i]=KeyState.RELEASED;
 			}
 		}
+	}
+	
+	public KeyState getButtonState (int code){
+		return keys[code];
+	}
+	
+	public boolean keyChanged (int code){
+		boolean changed = false;
+		if(keys_prev[code]!=keys[code]){
+			changed = true;
+		}
+		keys_prev[code] = keys[code];
+		return changed;
 	}
 	
 	public boolean keyDown(int code){
