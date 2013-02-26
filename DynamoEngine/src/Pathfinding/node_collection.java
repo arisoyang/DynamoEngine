@@ -1,20 +1,20 @@
 package Pathfinding;
 
-import Objects.gameObject;
+import Objects.GameObject;
 
 public class node_collection {
 	
-	private gameObject location;
+	private GameObject location;
 	private int f_val;
 	private int g_val;
 	private node_collection came_from;
 	
-	public node_collection(gameObject _loc){
+	public node_collection(GameObject _loc){
 		location = _loc;
 		came_from = null;
 	}
 	
-	public node_collection(gameObject _loc, int _f, int _g){
+	public node_collection(GameObject _loc, int _f, int _g){
 		location = _loc;
 		f_val = _f;
 		g_val = _g;
@@ -49,7 +49,7 @@ public class node_collection {
 		return g_val;
 	}
 	
-	public gameObject getLoc(){
+	public GameObject getLoc(){
 		return location;
 	}
 	

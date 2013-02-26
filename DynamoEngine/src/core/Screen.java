@@ -2,8 +2,8 @@ package core;
 
 import javax.swing.JPanel;
 
-import Objects.drawObject;
-import Objects.drawObjectLayerCompare;
+import Objects.DrawObject;
+import Objects.DrawObjectLayerCompare;
 
 
 import java.awt.*;
@@ -13,16 +13,16 @@ import java.util.PriorityQueue;
 public class Screen extends JPanel {
 	private int temp; // temporary struct for rendering data
 	
-	public PriorityQueue<drawObject> draw_objs;
+	public PriorityQueue<DrawObject> draw_objs;
 	
 	public Screen(){
 		setDoubleBuffered(true);
-		draw_objs  = new PriorityQueue<drawObject>(1, new drawObjectLayerCompare());
+		draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 	}
 
    public void paint(Graphics g) {	 
 	   while (draw_objs.size() != 0){
-		   drawObject d = draw_objs.poll();
+		   DrawObject d = draw_objs.poll();
 		  // System.out.println(d.getLayer()+" "+d.getPos());
 		   d.draw(g);
 	   }
@@ -38,7 +38,7 @@ public class Screen extends JPanel {
 	   return;
    }
    
-   public void addDrawObject(drawObject object){
+   public void addDrawObject(DrawObject object){
 	   if (!draw_objs.contains(object)){
 			//System.out.println(object.getLayer());
 
@@ -46,7 +46,7 @@ public class Screen extends JPanel {
 	   }
 	}
    
-   public void setDrawObjects(PriorityQueue<drawObject> objects){
+   public void setDrawObjects(PriorityQueue<DrawObject> objects){
 		draw_objs = objects;
 	}
     

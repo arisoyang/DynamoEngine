@@ -14,9 +14,9 @@ import javax.imageio.ImageIO;
 
 import core.GameModule;
 
-public class drawObject {
+public class DrawObject {
 	
-	protected static ArrayList<drawObject> list = new ArrayList<drawObject>();
+	protected static ArrayList<DrawObject> list = new ArrayList<DrawObject>();
 	
 	protected int layer;
 	
@@ -26,11 +26,11 @@ public class drawObject {
 	
 	protected int height, width;
 	
-	public drawObject(){	
+	public DrawObject(){	
 		addList();
 	}
 	
-	public drawObject(int _x, int _y, String _img_name){
+	public DrawObject(int _x, int _y, String _img_name){
 		addList();
 		img = null;
 		width = 0;
@@ -47,7 +47,7 @@ public class drawObject {
 
 	}
 	
-	public drawObject(int _x, int _y, int _layer, String _img_name){
+	public DrawObject(int _x, int _y, int _layer, String _img_name){
 		addList();
 		img = null;
 		width = 0;
@@ -64,7 +64,7 @@ public class drawObject {
 
 	}
 	
-	public drawObject(int _x, int _y, int _width, int _height, String _img_name){
+	public DrawObject(int _x, int _y, int _width, int _height, String _img_name){
 		addList();
 		img = null;
 		try {
@@ -79,7 +79,7 @@ public class drawObject {
 
 	}
 	
-	public drawObject(int _x, int _y, int _width, int _height, int _layer, String _img_name){
+	public DrawObject(int _x, int _y, int _width, int _height, int _layer, String _img_name){
 		addList();
 		img = null;
 		try {
@@ -137,7 +137,7 @@ public class drawObject {
 		return layer;
 	}
 	
-	public static ArrayList<drawObject> getList(){
+	public static ArrayList<DrawObject> getList(){
 		return list;
 	}
 	

@@ -11,8 +11,8 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 
-import Objects.gameObject;
-import Objects.moveableObject;
+import Objects.GameObject;
+import Objects.MoveableObject;
 
 
 
@@ -27,7 +27,7 @@ public class tbastar {
 	private static int num_expansions = 5;
 	private static int num_tracebacks = 5;
 	
-	public static void tbastar(moveableObject subject, gameObject start, gameObject goal, gameObject[][] map){
+	public static void tbastar(MoveableObject subject, GameObject start, GameObject goal, GameObject[][] map){
 		
 		System.out.println("GOING FROM "+start.getX()+" "+start.getY()+" to "+goal.getX()+" "+goal.getY());
 		
@@ -143,7 +143,7 @@ public class tbastar {
 		
 	}
 
-	public static boolean traceBack(ArrayDeque<node_collection> path_new, gameObject loc, gameObject start, int num_tracebacks){
+	public static boolean traceBack(ArrayDeque<node_collection> path_new, GameObject loc, GameObject start, int num_tracebacks){
 		//System.out.println("path_new length "+path_new.size());
 		for (int traces = 0; traces < num_tracebacks && path_new.peekLast() != null; traces++){
 			System.out.println("now looking at "+path_new.peekLast().getLoc().getX()+" "+path_new.peekLast().getLoc().getY());
@@ -157,7 +157,7 @@ public class tbastar {
 	}
 	
 	
-	public static boolean astar(list_collection lists, gameObject start, gameObject goal, gameObject[][] map, int num_expansions){
+	public static boolean astar(list_collection lists, GameObject start, GameObject goal, GameObject[][] map, int num_expansions){
 		ArrayList<node_collection> closed_list = lists.closed_list;
 		ArrayList<node_collection> open_list = lists.open_list;
 		PriorityQueue<node_collection> open_list_priority = lists.open_list_priority;
@@ -225,14 +225,14 @@ function reconstruct_path(came_from, current_node)
 	 */        		
 
 
-	public static int heuristic(gameObject loc1, gameObject loc2){
+	public static int heuristic(GameObject loc1, GameObject loc2){
 		int dist_x = loc1.getX()-loc2.getX();
 		int dist_y = loc1.getY()-loc2.getY();
 		//return (int) Math.floor(Math.sqrt((dist_x*dist_x) + (dist_y*dist_y))); //crow flies
 		return (Math.abs(dist_x)+Math.abs(dist_y))*adj_dist; //manhatten
 	}
 
-	public static ArrayList<node_collection> neighborNodes(node_collection focus, gameObject[][] map){
+	public static ArrayList<node_collection> neighborNodes(node_collection focus, GameObject[][] map){
 		int x = focus.getLoc().getX();
 		int y = focus.getLoc().getY();
 

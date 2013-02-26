@@ -1,6 +1,6 @@
 package Pathfinding;
 
-import Objects.moveableObject;
+import Objects.MoveableObject;
 import gameDemo.Game;
 
 public class PathModule {
@@ -15,7 +15,7 @@ public class PathModule {
 		//tell the units the spot to move to
 		//System.out.println("CYCLING "+moveableObject.getList().size());
 		
-		for (moveableObject o:moveableObject.getList()){
+		for (MoveableObject o:MoveableObject.getList()){
 			//System.out.println(o.getPos().x+" "+o.getPos().y+" "+o.getTarget().x+" "+o.getTarget().y);
 			if (o.getPos().x != o.getTarget().x || o.getPos().y != o.getTarget().y){
 				if (o.getWaypoints().size() == 0 ||(o.getWaypoints().peekLast().x != o.getTarget().x || o.getWaypoints().peekLast().y != o.getTarget().y)){

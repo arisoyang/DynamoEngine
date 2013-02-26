@@ -2,9 +2,9 @@ package Objects;
 import java.util.Comparator;
 
 
-public class drawObjectLayerCompare implements Comparator<drawObject>
+public class DrawObjectLayerCompare implements Comparator<DrawObject>
 {
-    public int compare(drawObject x, drawObject y)
+    public int compare(DrawObject x, DrawObject y)
     {
     	if (x.getLayer() < y.getLayer()){
     		return -1;

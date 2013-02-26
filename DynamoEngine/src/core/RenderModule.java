@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Objects.drawObject;
+import Objects.DrawObject;
 
 public class RenderModule extends JFrame{
 
@@ -40,7 +40,7 @@ public void addUpdatedArea(Rectangle rect){
 }
 
 public void checkUpdatedAreas(){
-	for (drawObject i:drawObject.getList()){
+	for (DrawObject i:DrawObject.getList()){
 		for(Rectangle rect:redrawAreas){
 			if (rect.intersects(i.getRect())){
 				addDrawObject(i);
@@ -52,7 +52,7 @@ public void checkUpdatedAreas(){
 }
 
 public void checkAreaAboveLayer(Rectangle rect, int layer){
-	for (drawObject i:drawObject.getList()){
+	for (DrawObject i:DrawObject.getList()){
 		if (i.getLayer() > layer && rect.intersects(i.getRect())){
 			addDrawObject(i);
 		}
@@ -60,11 +60,11 @@ public void checkAreaAboveLayer(Rectangle rect, int layer){
 	redrawAreas.clear();
 }
 
-public void addDrawObject(drawObject object){
+public void addDrawObject(DrawObject object){
 	sc.addDrawObject(object);
 }
 
-public void setDrawObjects(PriorityQueue<drawObject> objects){
+public void setDrawObjects(PriorityQueue<DrawObject> objects){
 	sc.setDrawObjects(objects);
 }
 

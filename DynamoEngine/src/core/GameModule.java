@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 
 import javax.swing.JFrame;
 
-import Objects.drawObject;
+import Objects.DrawObject;
 import Pathfinding.PathModule;
 
 
@@ -180,7 +180,7 @@ public class GameModule{
 		}
 	}
 	
-	public void setDrawObjects(PriorityQueue<drawObject> objects){
+	public void setDrawObjects(PriorityQueue<DrawObject> objects){
 		renderer.setDrawObjects(objects);
 	}
 	

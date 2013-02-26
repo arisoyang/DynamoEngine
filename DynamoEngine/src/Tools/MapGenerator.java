@@ -1,5 +1,8 @@
 package Tools;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -156,33 +159,123 @@ public class MapGenerator {
 	}
 	private double fitness(int[][] heightMap){
 		double fitness=0;
-		
+		double height=0;
+		int lowest=MAXLAYERS;
+		int highest=0;
+		int numberNextToSame=0;
+		int currHeight;
+		int[] adjList;
 		for(int i=0;i<heightMap.length;i++){
 			for(int j=0;j<heightMap[i].length;j++){
-				fitness+=heightMap[i][j];
+				currHeight=heightMap[i][j];
+				height+=currHeight;
+				adjList=getAdjacentHeights(heightMap,i,j);
+				for(int k:adjList){
+					if (currHeight==k){
+						numberNextToSame++;
+					}
+				}
+				
+				if(lowest<currHeight){
+					lowest=currHeight;
+				}
+				else if(highest>currHeight){
+					highest=currHeight;
+				}
 			}
 		}
-		
+		double average=(height/(double)(length*width));
+		//difference between highest point and lowest
+		fitness+=(highest-lowest);
+		//the difference between the average of the map and the true average
+		fitness-=Math.abs(((double)MAXLAYERS/(double)(length*width))-average);
+		//all the squares that have their same height boardering
+		fitness+=numberNextToSame;
 		return fitness;
 	}
-	/**
-	 * Simulates the flow of water on the map
-	 * @param waterAmount the amount of water starting on the map per square.
-	 */
-	private void simulateFlow(int waterAmount){
-		
-		//map of each coordinate to the amount of water
-		HashMap<String,Integer> mapWithWater = new HashMap<String,Integer>(length*width);
-		//maps a string of the coordinates to the water amount
-		String coordinates;
-		for(int i=0;i<length;i++){
-			for(int j=0;j<width;j++){
-				coordinates=i+","+j;
-				mapWithWater.put(coordinates, waterAmount);
+	
+	public String export(){
+		String toReturn="";
+		for(int i=0;i<heightMapArray[0].length;i++){
+			for(int j=0;j<heightMapArray[0][i].length;j++){
+				for(int t=0;t<tilesPer;t++){//this expands the map representation
+					toReturn+=heightMapArray[0][i][j]+" ";
+				}
+			}
+			toReturn+="\n";
+		}
+		return toReturn;
+	}
+	public void export(String filename){
+		try {
+			BufferedWriter outputStream = new BufferedWriter(new FileWriter(filename));
+			outputStream.write(export());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private int[] getAdjacentHeights(int[][] heightMap,int i, int j) {
+		int[] adjList;
+		int size=4;
+		if(j==width-1||j==0){
+			size--;
+		}
+		if(i==length-1||i==0){
+			size--;
+		}
+		adjList=new int[size];
+	
+		if(j==width-1){
+			adjList[0]=heightMap[i][j-1];
+			if(i==length-1){//corner
+				adjList[1]=heightMap[i-1][j];
+				
+			}
+			else if(i==0){//other corner
+				adjList[1]=heightMap[i+1][j];
+				
+			}
+			else{//not corner
+				adjList[1]=heightMap[i-1][j];
+				adjList[2]=heightMap[i+1][j];
 			}
 		}
+		else if (j==0){
+			adjList[0]=heightMap[i][j+1];
+			if(i==length-1){//corner
+				adjList[1]=heightMap[i-1][j];
+				
+			}
+			else if(i==0){//other corner
+				adjList[1]=heightMap[i+1][j];
+				
+			}
+			else{//not corner
+				adjList[1]=heightMap[i-1][j];
+				adjList[2]=heightMap[i+1][j];
+			}
+		}
+		else{
+			adjList[0]=heightMap[i][j-1];
+			adjList[1]=heightMap[i][j+1];
+			if(i==length-1){//corner
+				adjList[2]=heightMap[i-1][j];
+				
+			}
+			else if(i==0){//other corner
+				adjList[2]=heightMap[i+1][j];
+				
+			}
+			else{//not corner
+				adjList[2]=heightMap[i-1][j];
+				adjList[3]=heightMap[i+1][j];
+			}
+		}
+	
 		
-		
+		return adjList;
 	}
 	
 	private void sort(double[] array){
@@ -190,18 +283,18 @@ public class MapGenerator {
 		for (double d:array){
 			arr+=" "+d;
 		}
-		System.out.println("before: "+arr);
+//		System.out.println("before: "+arr);
 		for(int i=0;i<array.length;i++){
 			for(int j=array.length-1;j>i;j--){
 				if(array[i]<array[j])
 					swap(array,i,j);
 			}
 		}
-		arr="";
+		/*arr="";
 		for (double d:array){
 			arr+=" "+d;
 		}
-		System.out.println("after: "+arr);
+		System.out.println("after: "+arr);*/
 	}
 	private void swap(double[] array, int i,int j){
 		double temp=array[i];
@@ -215,6 +308,7 @@ public class MapGenerator {
 		selection();
 		return heightMapArray[0];
 	}
+	//THese below methods are for testing help
 	public String stringBestSol(){
 		return stringPopMember(0);
 	}
@@ -249,9 +343,11 @@ public class MapGenerator {
 		// TODO Auto-generated method stub
 		
 		MapGenerator mg= new MapGenerator(7,10,10,20);
-		mg.evolutionary(10,5);
+		mg.evolutionary(100,2);
 		System.out.println(mg.fitness(mg.bestSol()));
 		System.out.println(mg.stringBestSol());
+//		for(int i:mg.getAdjacentHeights(mg.bestSol(), 5, 8))
+//			System.out.print(" "+i);
 //		System.out.println(mg.getPreviousBestSol());
 	}
 

@@ -8,9 +8,9 @@ import java.util.Queue;
 
 import gameDemo.Game;
 
-public class moveableObject {
+public class MoveableObject {
 
-	protected static ArrayList<moveableObject> list = new ArrayList<moveableObject>();
+	protected static ArrayList<MoveableObject> list = new ArrayList<MoveableObject>();
 	
 	protected Point pos;
 	protected double true_x, true_y;
@@ -18,12 +18,12 @@ public class moveableObject {
 	int speed;
 	
 	private String file_name;
-	private drawObject draw_obj;
+	private DrawObject draw_obj;
 	
 	private Point target;
 	protected ArrayDeque<Point> waypoints;
 	
-	public moveableObject(int _x, int _y, int _layer, String _file, int _speed){
+	public MoveableObject(int _x, int _y, int _layer, String _file, int _speed){
 		true_x = _x;
 		true_y = _y;
 		speed = _speed;
@@ -31,7 +31,7 @@ public class moveableObject {
 		pos = new Point(_x, _y);
 		target = pos;
 		file_name = _file;
-		draw_obj = new drawObject(_x, _y, _layer, _file);
+		draw_obj = new DrawObject(_x, _y, _layer, _file);
 //		draw_obj.centerOnPoint();
 		addList();
 	}
@@ -67,7 +67,7 @@ public class moveableObject {
 //		draw_obj.centerOnPoint();
 	}
 	
-	public drawObject getDrawObj(){
+	public DrawObject getDrawObj(){
 		return draw_obj;
 	}
 	
@@ -80,7 +80,7 @@ public class moveableObject {
 		list.add(this);
 	}
 	
-	public static ArrayList<moveableObject> getList(){
+	public static ArrayList<MoveableObject> getList(){
 		return list;
 	}
 	
