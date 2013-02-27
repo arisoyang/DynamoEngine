@@ -19,6 +19,7 @@ import Objects.MoveableObject;
 
 import core.GameAction;
 import core.GameModule;
+import core.MapModule;
 
 public class Game {
 
@@ -34,13 +35,14 @@ public class Game {
 	public static int OBJ_HEIGHT = 25;
 	
 	private static GameObject[][] game_objects;
+	private static MapModule mapMod;
 	
 	public static void main(String[] args) {
 				
 		System.out.println(new Rectangle(25, 25, 25, 25).intersects(new Rectangle(49, 25, 1, 25)));
 		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
 		
-		
+		mapMod=new MapModule(40,40,4);
 		game = new GameModule();
 		
 		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
@@ -51,20 +53,27 @@ public class Game {
 
 		draw_objs.add(testunit.getDrawObj());
 		
-		game_objects = new GameObject[20][20];
+		game_objects = new GameObject[40][40];
+		int[][] mapHeights=mapMod.makeMap();
 		
-		/*for(int x = 0; x < game_objects.length; x++){
+		for(int x = 0; x < game_objects.length; x++){
 			for (int y = 0; y < game_objects[x].length; y++){
-				game_objects[x][y] = new gameObject(x, y, 1, "file1.png");
-				if (Math.random() < .1){
-					game_objects[x][y] = new gameObject(x, y, 2, "file2.png");
-				}else if (Math.random() < .1){
-					game_objects[x][y] = new gameObject(x, y, 3, "file3.png");
+				
+				if (mapHeights[x][y]==0){
+					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "blue.png");
+				}else if (mapHeights[x][y]==1){
+					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "red.png");
+				}
+				else if (mapHeights[x][y]==2){
+					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "teal.png");
+				}
+				else if (mapHeights[x][y]==3){
+					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "pink.png");
 				}
 				
 				draw_objs.add(game_objects[x][y].getDrawObj());
 			}
-		}*/
+		}
 		
 		
 		

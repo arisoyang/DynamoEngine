@@ -7,26 +7,35 @@ public class MapModule {
 
 	
 	private MapGenerator mg;
-	
-	public MapModule(){
-		mg=new MapGenerator(10,10,4,20);
+	private int length,width,layers;
+	private final int tilesPer=2;
+	public MapModule(int length,int width, int layers){//height and width to be divisible by tilesPer
+		this.layers=layers;
+		this.width=width;
+		this.length=length;
+		mg=new MapGenerator(length/tilesPer,width/tilesPer,layers,20);
 	}
 	
-	public GameObject[][] makeMap(int length,int width){
-		GameObject[][] game_objects=new GameObject[length][width];
-		for(int x = 0; x < game_objects.length; x++){
-			for (int y = 0; y < game_objects[x].length; y++){
-				game_objects[x][y] = new GameObject(x, y, 1, "file1.png");
-				if (Math.random() < .1){
-					game_objects[x][y] = new GameObject(x, y, 2, "file2.png");
-				}else if (Math.random() < .1){
-					game_objects[x][y] = new GameObject(x, y, 3, "file3.png");
+	public int[][] makeMap(){
+		mg.evolutionary(200, 2);
+		int[][]map=new int[length][width];
+		int [][] currentHeights=mg.bestSol();
+		for(int i=0;i<currentHeights.length;i++){
+			for(int j=0;j<currentHeights[i].length;j++){
+				for(int t=0;t<tilesPer;t++){
+					map[tilesPer*i+t][tilesPer*j]=currentHeights[i][j];
+					for(int t2=0;t2<tilesPer;t2++){
+						map[tilesPer*i+t][tilesPer*j+t2]=currentHeights[i][j];
+					}
+				}
+				for(int t=0;t<tilesPer;t++){
+					map[tilesPer*i][tilesPer*j+t]=currentHeights[i][j];
 				}
 				
-				//draw_objs.add(game_objects[x][y].getDrawObj());
 			}
 		}
-		return game_objects;
+		
+		return map;
 	}
 	
 	public void save(){

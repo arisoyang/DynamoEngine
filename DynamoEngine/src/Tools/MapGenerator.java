@@ -15,7 +15,7 @@ import java.util.Random;
 public class MapGenerator {
 
 	//private int[][] heightMap;
-	private int length, width, tilesPer;
+	private int length, width;
 	private int[][][]heightMapArray;
 	private static int MAXLAYERS;
 	private static Random rand;
@@ -51,7 +51,7 @@ public class MapGenerator {
 	}
 	
 	public void evolutionary(){
-		evolutionary(100,2);
+		evolutionary(100,populationSize/10);
 	}
 	public void evolutionary(int numIter){
 		evolutionary(numIter,2);
@@ -198,9 +198,7 @@ public class MapGenerator {
 		String toReturn="";
 		for(int i=0;i<heightMapArray[0].length;i++){
 			for(int j=0;j<heightMapArray[0][i].length;j++){
-				for(int t=0;t<tilesPer;t++){//this expands the map representation
-					toReturn+=heightMapArray[0][i][j]+" ";
-				}
+				toReturn+=heightMapArray[0][i][j]+" ";
 			}
 			toReturn+="\n";
 		}
@@ -210,6 +208,7 @@ public class MapGenerator {
 		try {
 			BufferedWriter outputStream = new BufferedWriter(new FileWriter(filename));
 			outputStream.write(export());
+			outputStream.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
