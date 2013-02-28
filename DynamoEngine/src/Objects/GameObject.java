@@ -16,6 +16,10 @@ public class GameObject {
 		draw_obj = new DrawObject(_x*Game.OBJ_WIDTH, _y*Game.OBJ_HEIGHT, _height, _file);
 	}
 	
+	public void update(){
+		//to be overwritten with game specific code
+	}
+	
 	public boolean equals(GameObject comp){
 		return ((x==comp.x) && (y==comp.y));
 	}

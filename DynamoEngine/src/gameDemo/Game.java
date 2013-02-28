@@ -72,6 +72,7 @@ public class Game {
 				}
 				
 				draw_objs.add(game_objects[x][y].getDrawObj());
+				game.objects.addObject(game_objects[x][y]);
 			}
 		}
 		
