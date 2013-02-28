@@ -16,7 +16,7 @@ import Objects.MoveableObject;
 
 
 
-public class tbastar {
+public class Tbastar {
 
 	/**
 	 * @param args
@@ -31,40 +31,48 @@ public class tbastar {
 		
 		System.out.println("GOING FROM "+start.getX()+" "+start.getY()+" to "+goal.getX()+" "+goal.getY());
 		
+		boolean out_opt = false;
+		
 		boolean sol_found = false;
 		boolean sol_found_and_traced = false;
 		boolean done_trace = true;
 		
-		node_collection most_promising = null;
-		node_collection new_most_promising = null;
+		Node_collection most_promising = null;
+		Node_collection new_most_promising = null;
 
-		ArrayDeque<node_collection> path_new = new ArrayDeque<node_collection>();
-		ArrayDeque<node_collection> path_follow = new ArrayDeque<node_collection>();
+		ArrayDeque<Node_collection> path_new = new ArrayDeque<Node_collection>();
+		ArrayDeque<Node_collection> path_follow = new ArrayDeque<Node_collection>();
 		
-		list_collection lists = new list_collection();
-		node_collection start_obj = new node_collection(start, 0+heuristic(start, goal), 0);
+		List_collection lists = new List_collection();
+		Node_collection start_obj = new Node_collection(start, 0+heuristic(start, goal), 0);
 		lists.open_list.add(start_obj);
 		lists.open_list_priority.add(start_obj);
 		
-		node_collection loc = new node_collection(start);
+		Node_collection loc = new Node_collection(start);
 		
 		
 		while (!loc.getLoc().equals(goal)){
 			System.out.println(loc.getLoc().getX()+" "+loc.getLoc().getY()+" "+goal.getX()+" "+goal.getY());
 			if (!sol_found){
 				System.out.println("^^^");
-				sol_found = astar(lists, start, goal, map, num_expansions);
+				sol_found = astar(subject, lists, start, goal, map, num_expansions);
 				
 			}
 			if (!sol_found_and_traced){
 				//if (done_trace){
 					//System.out.println("DDD");
+					if (lists.open_list_priority.size() == 0){
+						out_opt = true;
+						System.out.println("BREAKINGGGGGGGGGGGGGGGGGGG");
+						break;
+					}
+				
 					new_most_promising = lists.open_list_priority.peek();
 					System.out.println("promising "+new_most_promising.getLoc().getX()+" "+new_most_promising.getLoc().getY());
-					//System.out.println("from "+new_most_promising.getCameFrom().getLoc().getX()+" "+new_most_promising.getCameFrom().getLoc().getY());
+					System.out.println("from "+new_most_promising.getCameFrom().getLoc().getX()+" "+new_most_promising.getCameFrom().getLoc().getY());
 					boolean on_same_path = false;
-					node_collection current = new_most_promising;
-					Stack<node_collection> path_back = new Stack<node_collection>();
+					Node_collection current = new_most_promising;
+					Stack<Node_collection> path_back = new Stack<Node_collection>();
 					for (int i = 0; i < num_expansions; i++){
 						if (most_promising != null && current.equals(most_promising)){
 							on_same_path = true;
@@ -81,7 +89,7 @@ public class tbastar {
 							path_new.addFirst(path_back.pop());
 						}
 					}else{
-						path_new = new ArrayDeque<node_collection>();
+						path_new = new ArrayDeque<Node_collection>();
 						path_new.add(new_most_promising);
 					}
 					most_promising = new_most_promising;
@@ -94,9 +102,9 @@ public class tbastar {
 					}
 				}
 			}
-			node_collection old_loc = loc;
+			Node_collection old_loc = loc;
 			boolean path_contains = false;
-			node_collection current = path_follow.peekLast();
+			Node_collection current = path_follow.peekLast();
 			while(current != null){
 				if (current.equals(loc)){
 					path_contains = true;
@@ -108,7 +116,7 @@ public class tbastar {
 				System.out.println("YO");
 				loc = path_follow.removeFirst();
 			}else{
-				if (!loc.equals(start)){
+				if (!loc.getLoc().equals(start)){
 					//LOC = LISTS.STEPBACK(LOC)
 					loc = loc.getCameFrom();
 				}else{
@@ -116,7 +124,7 @@ public class tbastar {
 				}
 			}
 			//System.out.println("TTT "+old_loc);
-			loc.setCameFrom(old_loc);
+//			loc.setCameFrom(old_loc);
 			//move to loc
 		}
 		//System.out.println("DONE");
@@ -128,22 +136,52 @@ public class tbastar {
 			//get rid of the first waypoint because its in the spot you are already in
 		}
 		
-		while(path_follow.size() != 0){
-			node_collection next = path_follow.pollLast();
-			int next_x = (int) Math.floor((next.getLoc().getX()*Game.OBJ_WIDTH) + (Game.OBJ_WIDTH/2));
-			int next_y = (int) Math.floor((next.getLoc().getY()*Game.OBJ_HEIGHT) + (Game.OBJ_HEIGHT/2));
-			Point next_point = new Point(next_x, next_y);
-						
-			System.out.println("A POINT AT "+next_x+" "+next_y);
-			subject.addWaypoint(next_point);
+		System.out.println("S");
+		
+		if (out_opt){
+			System.out.println("&");
+			subject.setTarget(subject.getPos());
+		}else{
+			Node_collection last = path_follow.peekFirst();
+			ArrayDeque<GameObject> final_path = new ArrayDeque<GameObject>();
+			while(last!= null && last.getCameFrom() != null){
+				System.out.println("BLOCK IS "+last.getLoc().getX()+" "+last.getLoc().getY());
+				final_path.add(last.getLoc());
+				last = last.getCameFrom();
+				
+			}
+
+			subject.clearWaypoints();
+			while(final_path.size() != 0){
+				GameObject now = final_path.pollFirst();
+				int next_x = (int) Math.floor((now.getX()*Game.OBJ_WIDTH) + (Game.OBJ_WIDTH/2));
+				int next_y = (int) Math.floor((now.getY()*Game.OBJ_HEIGHT) + (Game.OBJ_HEIGHT/2));
+				Point next_point = new Point(next_x, next_y);
+							
+				//System.out.println("A POINT AT "+next_x+" "+next_y);
+				subject.addFirstWaypoint(next_point);				
+			}
+			subject.addWaypoint(subject.getTarget());
+
+			
+			/*
+			while(path_follow.size() != 0){
+				node_collection next = path_follow.pollLast();
+				int next_x = (int) Math.floor((next.getLoc().getX()*Game.OBJ_WIDTH) + (Game.OBJ_WIDTH/2));
+				int next_y = (int) Math.floor((next.getLoc().getY()*Game.OBJ_HEIGHT) + (Game.OBJ_HEIGHT/2));
+				Point next_point = new Point(next_x, next_y);
+							
+				System.out.println("A POINT AT "+next_x+" "+next_y);
+				subject.addWaypoint(next_point);
+			}
+			*/
 		}
-		subject.addWaypoint(subject.getTarget());
 		System.out.println("FINAL POINT AT "+subject.getTarget().x+" "+subject.getTarget().y);
 		
 		
 	}
 
-	public static boolean traceBack(ArrayDeque<node_collection> path_new, GameObject loc, GameObject start, int num_tracebacks){
+	public static boolean traceBack(ArrayDeque<Node_collection> path_new, GameObject loc, GameObject start, int num_tracebacks){
 		//System.out.println("path_new length "+path_new.size());
 		for (int traces = 0; traces < num_tracebacks && path_new.peekLast() != null; traces++){
 			System.out.println("now looking at "+path_new.peekLast().getLoc().getX()+" "+path_new.peekLast().getLoc().getY());
@@ -157,19 +195,21 @@ public class tbastar {
 	}
 	
 	
-	public static boolean astar(list_collection lists, GameObject start, GameObject goal, GameObject[][] map, int num_expansions){
-		ArrayList<node_collection> closed_list = lists.closed_list;
-		ArrayList<node_collection> open_list = lists.open_list;
-		PriorityQueue<node_collection> open_list_priority = lists.open_list_priority;
+	public static boolean astar(MoveableObject subject, List_collection lists, GameObject start, GameObject goal, GameObject[][] map, int num_expansions){
+		ArrayList<Node_collection> closed_list = lists.closed_list;
+		ArrayList<Node_collection> open_list = lists.open_list;
+		PriorityQueue<Node_collection> open_list_priority = lists.open_list_priority;
 		
 		
 		int expansions = 0;
 		
 		while (open_list.size() != 0 && expansions < num_expansions){
 			expansions++;
-			node_collection current = open_list_priority.peek();	
+			Node_collection current = open_list_priority.peek();	
 			if (current.getLoc().equals(goal)){
+				System.out.println("goal of "+goal.getX()+" "+goal.getY());
 				System.out.println("FOUND GOAL leaving "+current.getLoc().getX()+" "+current.getLoc().getY()+" in open list g "+current.getG()+" "+current.getF()+" "+heuristic(current.getLoc(), goal));
+				System.out.println("with came from "+current.getCameFrom().getLoc().getX()+" "+current.getCameFrom().getLoc().getY());
 				//return reconstruct_path(came_from, goal)
 				//listPath(current);
 				//System.out.println("APPROXIMATE DISTANCE IS "+current.f_val);
@@ -181,8 +221,11 @@ public class tbastar {
 			open_list_priority.poll();
 			open_list.remove(current);
 			System.out.println("Adding "+current.getLoc().getX()+" "+current.getLoc().getY()+" (height) "+current.getLoc().getHeight()+" to closed list g "+current.getG()+" "+current.getF()+" "+heuristic(current.getLoc(), goal));
+			if (current.getCameFrom() != null){
+				System.out.println("came from "+current.getCameFrom().getLoc().getX()+" "+current.getCameFrom().getLoc().getY());
+			}
 			closed_list.add(current);
-			for (node_collection neighbor : neighborNodes(current, map)){
+			for (Node_collection neighbor : neighborNodes(subject, current, map)){
 				if (!isInSet(neighbor, closed_list)){
 					int tentative_g = current.getG() + distBetween(current, neighbor) + current.travelCost(neighbor);
 					boolean is_in_open = isInSet(neighbor, open_list);
@@ -195,8 +238,9 @@ public class tbastar {
 						neighbor.setCameFrom(current);
 						neighbor.setG(tentative_g);
 						neighbor.setF(neighbor.getG() + heuristic(neighbor.getLoc(), goal));
-						//System.out.println("NOW EXAMINING "+neighbor.location.x+" "+neighbor.location.y+" "+neighbor.g_val+" "+neighbor.f_val);
 						if(!is_in_open){
+							System.out.println("NOW open listing "+neighbor.getLoc().getX()+" "+neighbor.getLoc().getY());
+							System.out.println("with a came fom of "+neighbor.getCameFrom().getLoc().getX()+" "+neighbor.getCameFrom().getLoc().getY());
 							open_list.add(neighbor);
 							open_list_priority.add(neighbor);
 						}
@@ -208,7 +252,7 @@ public class tbastar {
 		return false;
 	}
 
-	public static void listPath(node_collection current){
+	public static void listPath(Node_collection current){
 		if (current.getCameFrom() != null){
 			listPath(current.getCameFrom());
 		}
@@ -232,20 +276,63 @@ function reconstruct_path(came_from, current_node)
 		return (Math.abs(dist_x)+Math.abs(dist_y))*adj_dist; //manhatten
 	}
 
-	public static ArrayList<node_collection> neighborNodes(node_collection focus, GameObject[][] map){
+	public static ArrayList<Node_collection> neighborNodes(MoveableObject subject, Node_collection focus, GameObject[][] map){
 		int x = focus.getLoc().getX();
 		int y = focus.getLoc().getY();
 
-		ArrayList<node_collection> nodes = new ArrayList<node_collection>();
+		ArrayList<Node_collection> nodes = new ArrayList<Node_collection>();
+		
+		boolean[][] valid = new boolean[3][3];
+		
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 3; j++){
+				valid[i][j] = false;
+			}
+		}
+		
 		for (int a = -1; a < 2; a++){
 			for (int b = -1; b < 2; b++){
 				if (a != 0 || b != 0){
 					if (x+a >= 0 && x+a < map.length && y+b >= 0 && y+b < map[x+a].length){
-						node_collection temp_node = new node_collection(map[x+a][y+b]);
-						if (focus.canWalk(temp_node)){
-							nodes.add(temp_node);
+						Node_collection temp_node = new Node_collection(map[x+a][y+b]);
+						if (focus.canWalk(subject, temp_node)){
+							//nodes.add(temp_node);
+							valid[a+1][b+1] = true;
 						}
 					}
+				}
+			}
+		}
+		
+		if (valid[0][0]){
+			if (!valid[0][1] || !valid[1][0]){
+				valid[0][0] = false;
+			}
+		}
+		
+		if (valid[0][2]){
+			if (!valid[1][2] || !valid[0][1]){
+				valid[0][2] = false;
+			}
+		}
+		
+		if (valid[2][0]){
+			if (!valid[1][0] || !valid[2][1]){
+				valid[2][0] = false;
+			}
+		}
+		
+		if (valid[2][2]){
+			if (!valid[1][2] || !valid[2][1]){
+				valid[2][2] = false;
+			}
+		}
+		
+		for (int a = 0; a < 3; a++){
+			for (int b = 0; b <3; b++){
+				if (valid[a][b]){
+					Node_collection temp_node = new Node_collection(map[x+a-1][y+b-1]);
+					nodes.add(temp_node);
 				}
 			}
 		}
@@ -268,7 +355,7 @@ function reconstruct_path(came_from, current_node)
 		return nodes;
 	}
 
-	public static boolean isInSet(node_collection check, ArrayList<node_collection> list){
+	public static boolean isInSet(Node_collection check, ArrayList<Node_collection> list){
 		for (int i = 0; i < list.size(); i++){
 			if (check.equals(list.get(i))){
 				return true;
@@ -277,7 +364,7 @@ function reconstruct_path(came_from, current_node)
 		return false;
 	}
 	
-	public static node_collection findInSet(node_collection check, ArrayList<node_collection> list){
+	public static Node_collection findInSet(Node_collection check, ArrayList<Node_collection> list){
 		for (int i = 0; i < list.size(); i++){
 			if (check.equals(list.get(i))){
 				return list.get(i);
@@ -286,7 +373,7 @@ function reconstruct_path(came_from, current_node)
 		return null;
 	}
 
-	public static int distBetween(node_collection col1, node_collection col2){
+	public static int distBetween(Node_collection col1, Node_collection col2){
 		if (col1.getLoc().getX() == col2.getLoc().getX() || col1.getLoc().getY() == col2.getLoc().getY()){
 			return adj_dist;
 		}

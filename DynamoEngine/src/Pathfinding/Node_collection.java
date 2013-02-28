@@ -1,32 +1,33 @@
 package Pathfinding;
 
 import Objects.GameObject;
+import Objects.MoveableObject;
 
-public class node_collection {
+public class Node_collection {
 	
 	private GameObject location;
 	private int f_val;
 	private int g_val;
-	private node_collection came_from;
+	private Node_collection came_from;
 	
-	public node_collection(GameObject _loc){
+	public Node_collection(GameObject _loc){
 		location = _loc;
 		came_from = null;
 	}
 	
-	public node_collection(GameObject _loc, int _f, int _g){
+	public Node_collection(GameObject _loc, int _f, int _g){
 		location = _loc;
 		f_val = _f;
 		g_val = _g;
 		came_from = null;
 	}
 	
-	public boolean equals(node_collection comp){
+	public boolean equals(Node_collection comp){
 		return (location.equals(comp.location));
 	}
 	
-	public boolean canWalk(node_collection to){
-		return (to.getLoc().getHeight() == location.getHeight());
+	public boolean canWalk(MoveableObject mover, Node_collection to){
+		return (Math.abs((to.getLoc().getHeight() - location.getHeight())) <= mover.getHeightThreshhold());
 	}
 	
 	public void setF(int _f){
@@ -37,7 +38,7 @@ public class node_collection {
 		g_val = _g;
 	}
 	
-	public void setCameFrom(node_collection _c){
+	public void setCameFrom(Node_collection _c){
 		came_from = _c;
 	}
 	
@@ -53,11 +54,11 @@ public class node_collection {
 		return location;
 	}
 	
-	public node_collection getCameFrom(){
+	public Node_collection getCameFrom(){
 		return came_from;
 	}
 	
-	public int travelCost(node_collection to){
+	public int travelCost(Node_collection to){
 		return 0;
 	}
 }

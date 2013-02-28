@@ -173,7 +173,7 @@ public class MapGenerator {
 			heightMap[i][randInt]=rand.nextInt(MAXLAYERS);
 		}
 	}
-	private double fitness(int[][] heightMap){//TODO:add ramparray stuffs
+	private double fitness(int[][] heightMap){//TODO:fix stuffs
 		double fitness=0;
 		double height=0;
 		int lowest=MAXLAYERS;
@@ -187,7 +187,7 @@ public class MapGenerator {
 				height+=currHeight;
 				adjList=getAdjacentHeights(heightMap,i,j);
 				for(int k:adjList){
-					if (currHeight==k){
+					if (currHeight>=k-1&&currHeight<=k+1){
 						numberNextToSame++;
 					}
 				}
@@ -206,7 +206,7 @@ public class MapGenerator {
 		//the difference between the average of the map and the true average
 		fitness-=Math.abs(((double)MAXLAYERS/(double)(length*width))-average);
 		//all the squares that have their same height boardering
-		fitness+=numberNextToSame;
+		fitness+=10*numberNextToSame;
 		return fitness;
 	}
 	

@@ -3,9 +3,9 @@ import java.util.Comparator;
 
 
 
-public class location_compare implements Comparator<node_collection>
+public class Location_compare implements Comparator<Node_collection>
 {
-    public int compare(node_collection x, node_collection y)
+    public int compare(Node_collection x, Node_collection y)
     {
     	if (x.getF() < y.getF()){
     		return -1;

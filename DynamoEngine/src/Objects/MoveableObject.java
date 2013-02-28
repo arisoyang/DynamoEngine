@@ -16,6 +16,7 @@ public class MoveableObject {
 	protected double true_x, true_y;
 	
 	int speed;
+	int height_thresh;
 	
 	private String file_name;
 	private DrawObject draw_obj;
@@ -23,16 +24,17 @@ public class MoveableObject {
 	private Point target;
 	protected ArrayDeque<Point> waypoints;
 	
-	public MoveableObject(int _x, int _y, int _layer, String _file, int _speed){
+	public MoveableObject(int _x, int _y, int _height_thresh, int _layer, String _file, int _speed){
 		true_x = _x;
 		true_y = _y;
+		height_thresh = _height_thresh;
 		speed = _speed;
 		waypoints = new ArrayDeque<Point>();
 		pos = new Point(_x, _y);
 		target = pos;
 		file_name = _file;
 		draw_obj = new DrawObject(_x, _y, _layer, _file);
-//		draw_obj.centerOnPoint();
+		updatePosition(_x, _y);
 		addList();
 	}
 	
@@ -61,9 +63,12 @@ public class MoveableObject {
 		true_y = _y;
 		int ix = (int)Math.floor(_x);
 		int iy = (int)Math.floor(_y);
+		int drawx = (int)Math.round(ix-(draw_obj.getWidth()/2))-1;
+		int drawy = (int)Math.round(iy-(draw_obj.getHeight()/2));
+//		System.out.println("x is "+ix+" draw is "+drawx);
 		pos.x = ix;
 		pos.y = iy;
-		draw_obj.updatePosition(ix, iy);
+		draw_obj.updatePosition(drawx, drawy);
 //		draw_obj.centerOnPoint();
 	}
 	
@@ -84,8 +89,16 @@ public class MoveableObject {
 		return list;
 	}
 	
+	public void clearWaypoints(){
+		waypoints.clear();
+	}
+	
 	public ArrayDeque<Point> getWaypoints(){
 		return waypoints;
+	}
+	
+	public void addFirstWaypoint(Point p){
+		waypoints.addFirst(p);
 	}
 	
 	public void addWaypoint(Point p){
@@ -93,13 +106,14 @@ public class MoveableObject {
 	}
 	
 	public void move(){
-		int distance_left = speed;
-		System.out.println("distance left "+distance_left);
+		double distance_left = speed;
+		//System.out.println("distance left "+distance_left);
 		while(waypoints.size() > 0 && pos.distance(waypoints.peekFirst()) <= speed){
-			System.out.println("can reach waypoint in one jump "+pos.distance(waypoints.peekFirst()));
+			//System.out.println("can reach waypoint in one jump "+pos.distance(waypoints.peekFirst()));
 
 			distance_left -= pos.distance(waypoints.peekFirst());
 			pos = waypoints.pollFirst();
+			
 		}
 		
 		double new_x = true_x;
@@ -119,12 +133,16 @@ public class MoveableObject {
 				angle = Math.PI/2;
 			}
 			
-			System.out.println("from "+pos.x+" "+pos.y+" to "+waypoints.peekFirst().x+" "+waypoints.peekFirst().y+" is "+angle);
+			//System.out.println("from "+pos.x+" "+pos.y+" to "+waypoints.peekFirst().x+" "+waypoints.peekFirst().y+" is "+angle);
 			
 			new_x += Math.cos(angle)*distance_left;
 			new_y += Math.sin(angle)*distance_left;
 		}
 		updatePosition(new_x, new_y);
+	}
+
+	public int getHeightThreshhold() {
+		return height_thresh;
 	}
 	
 }

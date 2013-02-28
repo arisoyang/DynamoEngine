@@ -22,7 +22,7 @@ public class PathModule {
 					
 					//System.out.println("TARGET AT "+o.getTarget());
 					
-					tbastar.tbastar(o, Game.getBlock(o.getPos().x, o.getPos().y), Game.getBlock(o.getTarget().x, o.getTarget().y), Game.getMap());
+					Tbastar.tbastar(o, Game.getBlock(o.getPos().x, o.getPos().y), Game.getBlock(o.getTarget().x, o.getTarget().y), Game.getMap());
 				}
 				
 				
