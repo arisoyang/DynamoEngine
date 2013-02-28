@@ -46,6 +46,7 @@ public class Game {
 		game = new GameModule();
 		
 		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
+		game.addMouseMap(new KeyInformation(2, KeyState.PRESSED), new contextMenu());
 		
 		PriorityQueue<DrawObject> draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 		
