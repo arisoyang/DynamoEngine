@@ -79,16 +79,16 @@ public class Game {
 		
 		for(int x = 0; x < game_objects.length; x++){
 			for (int y = 0; y < game_objects[x].length; y++){
-				if (x > 0 && game_objects[x][y].getHeight() != game_objects[x-1][y].getHeight()){
+				if (x > 0 && Math.abs(game_objects[x][y].getHeight() - game_objects[x-1][y].getHeight())>=2){
 					draw_objs.add(new DrawObject(x*25, y*25, 10, "divider_ver.png"));	
 				}
-				if (x < game_objects.length-1 && game_objects[x][y].getHeight() != game_objects[x+1][y].getHeight()){
+				if (x < game_objects.length-1 && Math.abs(game_objects[x][y].getHeight() - game_objects[x+1][y].getHeight())>=2){
 					draw_objs.add(new DrawObject(x*25+24, y*25, 10, "divider_ver.png"));	
 				}
-				if (y > 0 && game_objects[x][y].getHeight() != game_objects[x][y-1].getHeight()){
+				if (y > 0 && Math.abs(game_objects[x][y].getHeight() - game_objects[x][y-1].getHeight())>=2){
 					draw_objs.add(new DrawObject(x*25, y*25, 10, "divider_hor.png"));	
 				}
-				if (y < game_objects[x].length-1 && game_objects[x][y].getHeight() != game_objects[x][y+1].getHeight()){
+				if (y < game_objects[x].length-1 && Math.abs(game_objects[x][y].getHeight() - game_objects[x][y+1].getHeight())>=2){
 					draw_objs.add(new DrawObject(x*25, y*25+24, 10, "divider_hor.png"));	
 				}
 			}

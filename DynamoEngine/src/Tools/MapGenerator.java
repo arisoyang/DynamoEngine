@@ -20,6 +20,9 @@ public class MapGenerator {
 	private static int MAXLAYERS;
 	private static Random rand;
 	
+	//private int[][][] rampArray; //4 digit number of 1 and 0 to tell if there are any ramps
+	//up right down left :||: left->right
+	
 	private int[][] previousBestSolution;
 	
 	private double[] probabilityDensity;
@@ -39,10 +42,16 @@ public class MapGenerator {
 		this.populationSize=populationSize;
 		MAXLAYERS=maxLayers;
 		heightMapArray=new int[populationSize][length][width];
-		for(int p=0;p<populationSize;p++){
-			for (int i=0;i<length;i++){
-				for(int j=0;j<width;j++){
+		//rampArray=new int[populationSize][length][width];
+		int p,i,j,k;
+		for(p=0;p<populationSize;p++){//the starting population
+			for (i=0;i<length;i++){
+				for(j=0;j<width;j++){
 					heightMapArray[p][i][j]=rand.nextInt(MAXLAYERS);
+					/*for(k=0;k<4;k++){
+						rampArray[p][i][j]+=Math.abs(rand.nextInt()%2)*Math.pow(10, k);
+//						System.out.println(rampArray[p][i][j]);
+					}*/
 				}
 			}
 		}
@@ -92,11 +101,12 @@ public class MapGenerator {
 		//this picks the pop members to cross
 		//replaces the bottom half
 		int[][][] auxilary=new int[populationSize][length][width];
+		int[][][] auxilaryRamp=new int[populationSize][length][width];
 		int one,two;
 		for(int i=0;i<populationSize;i+=2){
 			one=lookupProbabilityDensity(rand.nextDouble());
 			two=lookupProbabilityDensity(rand.nextDouble());
-			cross(one,two,auxilary,i,i+1);
+			cross(one,two,auxilary,auxilaryRamp,i,i+1);
 		}
 		heightMapArray=auxilary;
 	}
@@ -113,28 +123,34 @@ public class MapGenerator {
 	 * @param one index one to be crossed
 	 * @param two index two to be crossed
 	 */
-	private void cross(int one,int two,int[][][]aux,int auxOne,int auxTwo){
+	private void cross(int one,int two,int[][][]aux,int[][][]auxRamp,int auxOne,int auxTwo){
 		int randomInt;
-		
-		int[] tempRow1;
-		int[] tempRow2;
+		int[] tempRow1, tempRow2,rampRow1, rampRow2;
 		//loops through each row of the map
 		for(int i=0;i<length;i++){
 			tempRow1=new int[width];
 			tempRow2=new int[width];
+			rampRow1=new int[width];
+			rampRow2=new int[width];
 			//random integer is generated to see where split occurs
 			randomInt=rand.nextInt(width);
 			//this crosses the row
 			for(int j=0;j<randomInt;j++){
 				tempRow1[j]=heightMapArray[one][i][j];
 				tempRow2[j]=heightMapArray[two][i][j];
+//				rampRow1[j]=rampArray[one][i][j];
+//				rampRow2[j]=rampArray[two][i][j];
 			}
 			for(int j=randomInt;j<width;j++){
 				tempRow1[j]=heightMapArray[two][i][j];
 				tempRow2[j]=heightMapArray[one][i][j];
+				//rampRow1[j]=rampArray[two][i][j];
+			//	rampRow2[j]=rampArray[one][i][j];
 			}
 			aux[auxOne][i]=tempRow1;
 			aux[auxTwo][i]=tempRow2;
+			//auxRamp[auxOne][i]=rampRow1;
+			//auxRamp[auxTwo][i]=rampRow2;
 		}
 		
 	}
@@ -157,7 +173,7 @@ public class MapGenerator {
 			heightMap[i][randInt]=rand.nextInt(MAXLAYERS);
 		}
 	}
-	private double fitness(int[][] heightMap){
+	private double fitness(int[][] heightMap){//TODO:add ramparray stuffs
 		double fitness=0;
 		double height=0;
 		int lowest=MAXLAYERS;
@@ -202,6 +218,14 @@ public class MapGenerator {
 			}
 			toReturn+="\n";
 		}
+		toReturn+="*******************";
+		/*for(int i=0;i<rampArray[0].length;i++){
+			for(int j=0;j<rampArray[0][i].length;j++){
+				toReturn+=rampArray[0][i][j]+" ";
+			}
+			toReturn+="\n";
+		}
+		*/
 		return toReturn;
 	}
 	public void export(String filename){
@@ -210,7 +234,6 @@ public class MapGenerator {
 			outputStream.write(export());
 			outputStream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -302,10 +325,16 @@ public class MapGenerator {
 		int [][]tempMap=heightMapArray[i];
 		heightMapArray[i]=heightMapArray[j];
 		heightMapArray[j]=tempMap;
+//		tempMap=rampArray[i];
+//		rampArray[i]=rampArray[j];
+//		rampArray[j]=tempMap;
 	}
-	public int[][] bestSol(){
+	public int[][][] bestSol(){
 		selection();
-		return heightMapArray[0];
+		int [][][] ret=new int[2][][];
+		ret[0]=heightMapArray[0];
+//		ret[1]=rampArray[0];
+		return ret;
 	}
 	//THese below methods are for testing help
 	public String stringBestSol(){
@@ -320,6 +349,13 @@ public class MapGenerator {
 			}
 			toReturn+="\n";
 		}
+	/*	member=rampArray[number];
+		for(int i=0;i<member.length;i++){
+			for(int j=0;j<member[i].length;j++){
+				toReturn+=member[i][j]+" ";
+			}
+			toReturn+="\n";
+		}*/
 		return toReturn;
 	}
 	public String getPreviousBestSol( ){
@@ -338,12 +374,10 @@ public class MapGenerator {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
+	public static void main(String[] args) {		
 		MapGenerator mg= new MapGenerator(7,10,10,20);
 		mg.evolutionary(100,2);
-		System.out.println(mg.fitness(mg.bestSol()));
+		System.out.println(mg.fitness(mg.bestSol()[0]));
 		System.out.println(mg.stringBestSol());
 //		for(int i:mg.getAdjacentHeights(mg.bestSol(), 5, 8))
 //			System.out.print(" "+i);

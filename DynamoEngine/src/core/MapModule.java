@@ -1,5 +1,7 @@
 package core;
 
+import java.util.HashMap;
+
 import Objects.GameObject;
 import Tools.MapGenerator;
 
@@ -19,7 +21,10 @@ public class MapModule {
 	public int[][] makeMap(){
 		mg.evolutionary(200, 2);
 		int[][]map=new int[length][width];
-		int [][] currentHeights=mg.bestSol();
+		int [][][] dataStruct=mg.bestSol();
+		int[][] currentHeights=dataStruct[0];
+		//int [][] ramps=dataStruct[1];
+		//HashMap<int[],int[]> rampMapping=makeRampList(ramps);
 		for(int i=0;i<currentHeights.length;i++){
 			for(int j=0;j<currentHeights[i].length;j++){
 				for(int t=0;t<tilesPer;t++){
@@ -37,7 +42,22 @@ public class MapModule {
 		
 		return map;
 	}
-	
+/*	public HashMap<int[],int[]> makeRampList(int[][] ramps){
+
+		HashMap<int[],int[]> rampMapping=new HashMap<int[],int[]>();
+		int ones,tens,hundreds,thousands;
+		for(int[] list:ramps){
+			for(int i:list){
+				ones=i%2;
+				tens=i/10%2;
+				hundreds=i/100%2;
+				thousands=i/1000%2;
+				
+			}
+		}
+		
+		return rampMapping;
+	}*/
 	public void save(){
 		save(System.currentTimeMillis()+"Map.txt");
 	}
