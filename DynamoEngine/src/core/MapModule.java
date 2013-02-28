@@ -1,6 +1,11 @@
 package core;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import Objects.GameObject;
 import Tools.MapGenerator;
@@ -10,21 +15,34 @@ public class MapModule {
 	
 	private MapGenerator mg;
 	private int length,width,layers;
-	private final int tilesPer=2;
+	private int tilesPer=2;
+	private int numberOfIterations=1000;
+	
 	public MapModule(int length,int width, int layers){//height and width to be divisible by tilesPer
 		this.layers=layers;
 		this.width=width;
 		this.length=length;
 		mg=new MapGenerator(length/tilesPer,width/tilesPer,layers,20);
 	}
-	
-	public int[][] makeMap(){
-		mg.evolutionary(200, 2);
+	public boolean setTilesPer(int tilesPer){
+		if(length%tilesPer==0 && width%tilesPer==0){
+			this.tilesPer=tilesPer;
+			return true;
+		}
+		return false;
+	}
+	public void setNumberIterations(int number){
+		numberOfIterations=number;
+	}
+	public int [][] makeMap(){
+		return makeMap(System.currentTimeMillis()+"Map.txt");
+	}
+	public int[][] makeMap(String filename){
+		mg.evolutionary(numberOfIterations, 2);
 		int[][]map=new int[length][width];
 		int [][][] dataStruct=mg.bestSol();
 		int[][] currentHeights=dataStruct[0];
-		//int [][] ramps=dataStruct[1];
-		//HashMap<int[],int[]> rampMapping=makeRampList(ramps);
+		
 		for(int i=0;i<currentHeights.length;i++){
 			for(int j=0;j<currentHeights[i].length;j++){
 				for(int t=0;t<tilesPer;t++){
@@ -36,28 +54,42 @@ public class MapModule {
 				for(int t=0;t<tilesPer;t++){
 					map[tilesPer*i][tilesPer*j+t]=currentHeights[i][j];
 				}
-				
 			}
+		}
+		save(filename);
+		return map;
+	}
+
+	public int[][]load(String file){
+		int [][] map=new int[length][width];
+	    try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			int outer=0, inner=0;
+			String line=br.readLine();
+			while (line!=null){
+				System.out.println(line);
+				Scanner s=new Scanner(line);
+				inner=0;
+				while(s.hasNextInt()){
+					map[outer][inner]=s.nextInt();
+					inner++;
+				}
+				outer++;
+				line=br.readLine();
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("***Error Opening file***");
+			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("***Error Reading file***");
+			System.exit(0);
 		}
 		
 		return map;
 	}
-/*	public HashMap<int[],int[]> makeRampList(int[][] ramps){
-
-		HashMap<int[],int[]> rampMapping=new HashMap<int[],int[]>();
-		int ones,tens,hundreds,thousands;
-		for(int[] list:ramps){
-			for(int i:list){
-				ones=i%2;
-				tens=i/10%2;
-				hundreds=i/100%2;
-				thousands=i/1000%2;
-				
-			}
-		}
-		
-		return rampMapping;
-	}*/
 	public void save(){
 		save(System.currentTimeMillis()+"Map.txt");
 	}

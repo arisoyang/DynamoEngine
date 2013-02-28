@@ -202,9 +202,9 @@ public class MapGenerator {
 		}
 		double average=(height/(double)(length*width));
 		//difference between highest point and lowest
-		fitness+=(highest-lowest);
+//		fitness+=(highest-lowest);
 		//the difference between the average of the map and the true average
-		fitness-=Math.abs(((double)MAXLAYERS/(double)(length*width))-average);
+//		fitness-=Math.abs(((double)MAXLAYERS/(double)(length*width))-average);
 		//all the squares that have their same height boardering
 		fitness+=10*numberNextToSame;
 		return fitness;
