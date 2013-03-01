@@ -41,11 +41,17 @@ public class Game {
 	public static void main(String[] args) {
 		System.out.println(args.length);
 //		System.out.println(args[1]);
-				
-		System.out.println(new Rectangle(25, 25, 25, 25).intersects(new Rectangle(49, 25, 1, 25)));
-		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
+//		System.out.println(new Rectangle(25, 25, 25, 25).intersects(new Rectangle(49, 25, 1, 25)));
+//		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
+
+		mapMod=new MapModule(40,40,7);
 		
-		mapMod=new MapModule(40,40,4);
+		if(args.length==1){
+			mapHeights=mapMod.load(args[0]);
+		}
+		else{
+			mapHeights=mapMod.makeMap();
+		}
 		game = new GameModule();
 		
 		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
@@ -53,28 +59,16 @@ public class Game {
 		
 		PriorityQueue<DrawObject> draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 		
-		testunit = new MoveableObject(35, 35, 1, 3, "unit.png", 1);
+		testunit = new MoveableObject(35, 35, 1, 10, "unit.png", 1);
 
 		draw_objs.add(testunit.getDrawObj());
 		
 		game_objects = new GameObject[40][40];
-		if(args.length==1){
-			mapMod=new MapModule(40,40,7);
-			mapHeights=mapMod.load(args[0]);
-		}
-		else{
-			System.out.println(new Rectangle(25, 25, 25, 25).intersects(new Rectangle(49, 25, 1, 25)));
-			System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
-			
-			mapMod=new MapModule(40,40,7);
-			mapHeights=mapMod.makeMap();
-		}
 		
-		game = new GameModule();
-			
-		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
+					
+//		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
 		
-		testunit = new MoveableObject(35, 35, 1, 10, "unit.png", 1);
+		
 	
 		draw_objs.add(testunit.getDrawObj());
 		
