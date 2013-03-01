@@ -16,7 +16,7 @@ public class MapModule {
 	private MapGenerator mg;
 	private int length,width,layers;
 	private int tilesPer=2;
-	private int numberOfIterations=1000;
+	private int numberOfIterations=10000;
 	
 	public MapModule(int length,int width, int layers){//height and width to be divisible by tilesPer
 		this.layers=layers;
