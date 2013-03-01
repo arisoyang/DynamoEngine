@@ -16,12 +16,12 @@ private Screen sc;
 
 private ArrayList<Rectangle> redrawAreas;
 
-public RenderModule(){
+public RenderModule(int x,int y){
 	 sc = new Screen();
 	 add(sc);
      setTitle("GameScreen");
      setDefaultCloseOperation(EXIT_ON_CLOSE);
-     setSize(500, 500);
+     setSize(x, y);
      setLocationRelativeTo(null);
      setVisible(true);
      setResizable(false);

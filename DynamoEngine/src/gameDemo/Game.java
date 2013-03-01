@@ -59,7 +59,7 @@ public class Game {
 		
 		PriorityQueue<DrawObject> draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 		
-		testunit = new MoveableObject(35, 35, 1, 10, "unit.png", 1);
+		testunit = new MoveableObject(240, 240, 1, 10, "unit.png", 1);
 
 		draw_objs.add(testunit.getDrawObj());
 		

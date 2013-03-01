@@ -34,7 +34,7 @@ public class GameModule{
 		unitai = new AiModule();
 		keyboard=new KeyboardInput();
 		mouse = new MouseInput();
-		renderer = new RenderModule();
+		renderer = new RenderModule(500,520);
 		MAX_FRAME_SKIP=10;
 		REDRAWING_PERIOD=20;
 
@@ -50,7 +50,7 @@ public class GameModule{
 		unitai = new AiModule();
 		keyboard=new KeyboardInput();
 		mouse = new MouseInput();
-		renderer = new RenderModule();
+		renderer = new RenderModule(500,520);
 		MAX_FRAME_SKIP=10;
 		REDRAWING_PERIOD=reDrawPeriod;
 
@@ -67,7 +67,7 @@ public class GameModule{
 		unitai = new AiModule();
 		keyboard=new KeyboardInput();
 		mouse = new MouseInput();
-		renderer = new RenderModule();
+		renderer = new RenderModule(500,520);
 		MAX_FRAME_SKIP=maxSkip;
 		REDRAWING_PERIOD=reDrawPeriod;
 		
