@@ -184,6 +184,7 @@ public class MapGenerator {
 		for(int i=0;i<heightMap.length;i++){
 			for(int j=0;j<heightMap[i].length;j++){
 				currHeight=heightMap[i][j];
+				fitness+=currHeight;
 				height+=currHeight;
 				adjList=getAdjacentHeights(heightMap,i,j);
 				for(int k:adjList){
