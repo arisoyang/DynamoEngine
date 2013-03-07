@@ -13,6 +13,7 @@ import Objects.DrawObject;
 public class RenderModule extends JFrame{
 
 private Screen sc;
+public ContextMenuModule cmm;
 
 private ArrayList<Rectangle> redrawAreas;
 
@@ -21,10 +22,11 @@ public RenderModule(){
 	 add(sc);
      setTitle("GameScreen");
      setDefaultCloseOperation(EXIT_ON_CLOSE);
-     setSize(500, 500);
+     setSize(1000, 1000);
      setLocationRelativeTo(null);
      setVisible(true);
      setResizable(false);
+     cmm = new ContextMenuModule(sc);
 	
      redrawAreas = new ArrayList<Rectangle>();
 }
