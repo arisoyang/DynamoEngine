@@ -20,6 +20,8 @@ public class MapGenerator {
 	private static int MAXLAYERS;
 	private static Random rand;
 	
+	private boolean difference=false,trueAvgDifference=false,moveability=true,symmetry=false;
+	
 	//private int[][][] rampArray; //4 digit number of 1 and 0 to tell if there are any ramps
 	//up right down left :||: left->right
 	
@@ -58,7 +60,18 @@ public class MapGenerator {
 		
 		
 	}
-	
+	public void setDifference(boolean b){
+		difference=b;
+	}
+	public void setTrueAvgDifference(boolean b){
+		trueAvgDifference=b;
+	}
+	public void setMoveability(boolean b){
+		moveability=b;
+	}
+	public void setSymmetry(boolean b){
+		symmetry=b;
+	}
 	public void evolutionary(){
 		evolutionary(100,populationSize/10);
 	}
@@ -201,16 +214,35 @@ public class MapGenerator {
 				}
 			}
 		}
+		if(symmetry)
+			fitness+=100*findSymmetryPercent(heightMap);
 		double average=(height/(double)(length*width));
 		//difference between highest point and lowest
-//		fitness+=(highest-lowest);
+		if(difference)
+			fitness+=(highest-lowest);
 		//the difference between the average of the map and the true average
-//		fitness-=Math.abs(((double)MAXLAYERS/(double)(length*width))-average);
+		if(trueAvgDifference)
+			fitness-=Math.abs(((double)MAXLAYERS/(double)(length*width))-average);
 		//all the squares that have their same height boardering
-		fitness+=10*numberNextToSame;
-		return fitness;
-	}
+		if(moveability)
+			fitness+=10*numberNextToSame;
+//		return fitness;
+		return 100*findSymmetryPercent(heightMap);
+	}	
 	
+	private double findSymmetryPercent(int[][] heightMap) {
+		double total=0,same=0;
+		for(int i=0;i<length;i++){
+			for(int j=0;j<width/2;j++){
+				if(heightMap[i][j]==heightMap[i][width-1-j]){
+					same++;
+				}
+				total++;
+			}
+		}
+		
+		return same/total;
+	}
 	public String export(){
 		String toReturn="";
 		for(int i=0;i<heightMapArray[0].length;i++){
@@ -330,10 +362,9 @@ public class MapGenerator {
 //		rampArray[i]=rampArray[j];
 //		rampArray[j]=tempMap;
 	}
-	public int[][][] bestSol(){
+	public int[][] bestSol(){
 		selection();
-		int [][][] ret=new int[2][][];
-		ret[0]=heightMapArray[0];
+		int[][] ret=heightMapArray[0];
 //		ret[1]=rampArray[0];
 		return ret;
 	}
@@ -377,8 +408,11 @@ public class MapGenerator {
 	 */
 	public static void main(String[] args) {		
 		MapGenerator mg= new MapGenerator(7,10,10,20);
-		mg.evolutionary(100,2);
-		System.out.println(mg.fitness(mg.bestSol()[0]));
+		mg.evolutionary(1000000,2);
+		mg.setMoveability(false);
+		mg.setSymmetry(true);
+		System.out.println(mg.findSymmetryPercent(mg.bestSol()));
+		System.out.println(mg.fitness(mg.bestSol()));
 		System.out.println(mg.stringBestSol());
 //		for(int i:mg.getAdjacentHeights(mg.bestSol(), 5, 8))
 //			System.out.print(" "+i);

@@ -21,6 +21,8 @@ public class MapModule {
 		this.width=width;
 		this.length=length;
 		mg=new MapGenerator(length/tilesPer,width/tilesPer,layers,20);
+		mg.setMoveability(false);
+		mg.setSymmetry(true);
 	}
 	public boolean setTilesPer(int tilesPer){
 		if(length%tilesPer==0 && width%tilesPer==0){
@@ -38,8 +40,7 @@ public class MapModule {
 	public int[][] makeMap(String filename){
 		mg.evolutionary(numberOfIterations, 2);
 		int[][]map=new int[length][width];
-		int [][][] dataStruct=mg.bestSol();
-		int[][] currentHeights=dataStruct[0];
+		int[][] currentHeights=mg.bestSol();
 		
 		for(int i=0;i<currentHeights.length;i++){
 			for(int j=0;j<currentHeights[i].length;j++){
