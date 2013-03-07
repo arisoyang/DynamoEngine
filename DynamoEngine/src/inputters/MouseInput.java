@@ -101,14 +101,22 @@ public class MouseInput implements MouseListener, MouseMotionListener {
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		state[e.getButton()-1] = true;
+		checkPopup(e);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		state[e.getButton()-1] = false;
+		checkPopup(e);
+		
 	}
 	
+	private void checkPopup(MouseEvent e){
+		if(e.isPopupTrigger()){
+			//spawn menu
+		}
+	}
 	public void mouseDragged(MouseEvent e){
 		mouseMoved(e);
 	}
