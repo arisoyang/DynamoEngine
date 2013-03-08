@@ -23,6 +23,7 @@ public class GameModule{
 	public static KeyboardInput keyboard;
 	public static MouseInput mouse;
 	public static RenderModule renderer;
+	public static ContextMenuModule contextmenu;
 	private static int REDRAWING_PERIOD = 20; 
 	private static int MAX_FRAME_SKIP = 10;
 	/**
@@ -35,6 +36,11 @@ public class GameModule{
 		keyboard=new KeyboardInput();
 		mouse = new MouseInput();
 		renderer = new RenderModule();
+		
+		contextmenu = new ContextMenuModule();
+		contextmenu.setScreen(renderer);
+		objects.setCMM(contextmenu);
+	
 		MAX_FRAME_SKIP=10;
 		REDRAWING_PERIOD=20;
 

@@ -8,6 +8,7 @@ import gameDemo.Game;
 
 public class GameObject {
 	
+	public boolean actionable = false;
 	private int x, y, height;
 	private String file_name;
 	private DrawObject draw_obj;
@@ -26,6 +27,7 @@ public class GameObject {
 	}
 	
 	public void addContextAction(MenuAction m){
+		actionable = true;
 		contextActions.add(m);
 	}
 	
