@@ -21,8 +21,10 @@ public class MapModule {
 		this.width=width;
 		this.length=length;
 		mg=new MapGenerator(length/tilesPer,width/tilesPer,layers,20);
-		mg.setMoveability(false);
-		mg.setSymmetry(true);
+		mg.setAllFlags(false);
+		mg.setMoveability(true);
+		mg.setSymmetry(true,15);
+		
 	}
 	public boolean setTilesPer(int tilesPer){
 		if(length%tilesPer==0 && width%tilesPer==0){
@@ -30,6 +32,34 @@ public class MapModule {
 			return true;
 		}
 		return false;
+	}
+	public void setAllFlags(boolean b){
+		mg.setAllFlags(b);
+	}
+	public void setDifference(boolean b){
+		mg.setDifference(b);
+	}
+	public void setDifference(boolean b, int scalar){
+		mg.setDifference(b, scalar);
+	}
+	
+	public void setMoveability(boolean b){
+		mg.setMoveability(b);
+	}
+	public boolean setAvgHeight(boolean b, int height, int scalar){
+		return mg.setAvgHeight(b, height,scalar);
+	}
+	public boolean setAvgHeight(boolean b, int height){
+		return setAvgHeight(b,height,1);
+	}
+	public void setMoveability(boolean b,int scalar){
+		mg.setMoveability(b, scalar);
+	}
+	public void setSymmetry(boolean b, int scalar){
+		mg.setSymmetry(b, scalar);
+	}
+	public void setSymmetry(boolean b){
+		mg.setSymmetry(b);
 	}
 	public void setNumberIterations(int number){
 		numberOfIterations=number;

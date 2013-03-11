@@ -45,7 +45,13 @@ public class Game {
 //		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
 
 		mapMod=new MapModule(40,40,7);
-		
+		mapMod.setNumberIterations(10000);
+		mapMod.setAllFlags(false);
+//		mapMod.setSymmetry(true, 100);
+//		mapMod.setDifference(true, 2);
+//		mapMod.setMoveability(true, 100);
+		mapMod.setAvgHeight(true, 0,100);
+		mapMod.setTilesPer(1);
 		if(args.length==1){
 			mapHeights=mapMod.load(args[0]);
 		}
