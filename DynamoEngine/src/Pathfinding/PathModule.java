@@ -1,10 +1,15 @@
 package Pathfinding;
 
+import java.util.Hashtable;
+
+import Objects.GameObject;
 import Objects.MoveableObject;
 import gameDemo.Game;
 
 public class PathModule {
 
+	public static Hashtable<GameObject, LRTA> lrtaHash = new Hashtable<GameObject, LRTA>();
+	
 	public PathModule(){
 		
 	}
@@ -18,21 +23,20 @@ public class PathModule {
 		for (MoveableObject o:MoveableObject.getList()){
 			//System.out.println(o.getPos().x+" "+o.getPos().y+" "+o.getTarget().x+" "+o.getTarget().y);
 			if (o.getPos().x != o.getTarget().x || o.getPos().y != o.getTarget().y){
-				if (o.getWaypoints().size() == 0 ||(o.getWaypoints().peekLast().x != o.getTarget().x || o.getWaypoints().peekLast().y != o.getTarget().y)){
-					
-					//System.out.println("TARGET AT "+o.getTarget());
-					
-					Tbastar.tbastar(o, Game.getBlock(o.getPos().x, o.getPos().y), Game.getBlock(o.getTarget().x, o.getTarget().y), Game.getMap());
-				}
-				
-				
-				//System.out.println("WERE MOVING");
-				
 				o.move();
 			}
+		}		
+	}
+	
+	public static LRTA getLRTA(MoveableObject _subject, GameObject _goal, GameObject[][] _map){
+		if (lrtaHash.containsKey(_goal)){
+			System.out.println("EXISTING LRTA!!!!!!!!!!!!");
+			return lrtaHash.get(_goal);
 		}
-		
-		
+		System.out.println("NEW LRTA!!!!!!!!!!!!!!!");
+		LRTA newLRTA = new LRTA(_subject, _goal, _map);
+		lrtaHash.put(_goal, newLRTA);
+		return newLRTA;
 	}
 	
 }

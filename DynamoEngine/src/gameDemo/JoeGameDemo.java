@@ -2,26 +2,17 @@ package gameDemo;
 
 import inputters.KeyInformation;
 import inputters.KeyState;
-import inputters.KeyboardInput;
-import inputters.MouseInput;
 
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.util.ArrayDeque;
-import java.util.Date;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 import Objects.DrawObject;
 import Objects.DrawObjectLayerCompare;
 import Objects.GameObject;
 import Objects.MoveableObject;
-
-import core.GameAction;
 import core.GameModule;
 import core.MapModule;
 
-public class Game {
+public class JoeGameDemo {
 
 	/**
 	 * @param args
@@ -39,25 +30,18 @@ public class Game {
 	private static MapModule mapMod;
 	
 	public static void main(String[] args) {
-		System.out.println(args.length);
-//		System.out.println(args[1]);
-//		System.out.println(new Rectangle(25, 25, 25, 25).intersects(new Rectangle(49, 25, 1, 25)));
-//		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
+		genGame("1x1Map10000.txt");
+		genGame("2x2GoodMap.txt");
+		genGame("2x2Map10000.txt");
+	}
+	
+	public static void genGame(String fileName){
 
 		mapMod=new MapModule(40,40,7);
-		mapMod.setNumberIterations(10000);
-		mapMod.setAllFlags(false);
-//		mapMod.setSymmetry(true, 100);
-//		mapMod.setDifference(true, 2);
-//		mapMod.setMoveability(true, 100);
-		mapMod.setAvgHeight(true, 6,100);
+	
 		mapMod.setTilesPer(1);
-		if(args.length==1){
-			mapHeights=mapMod.load(args[0]);
-		}
-		else{
-			mapHeights=mapMod.makeMap();
-		}
+		mapHeights=mapMod.load(fileName);
+		
 		game = new GameModule();
 		
 		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
@@ -65,7 +49,7 @@ public class Game {
 		
 		PriorityQueue<DrawObject> draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 		
-		testunit = new MoveableObject(240, 240, 1, 10, "unit.png", 10);
+		testunit = new MoveableObject(240, 240, 1, 10, "unit.png", 1);
 
 		draw_objs.add(testunit.getDrawObj());
 		
@@ -128,23 +112,15 @@ public class Game {
 		
 		
 		System.out.println("bef");
-		game.loop();
+		//game.loop();
+		game.render();
 		System.out.println("aft");
-		
-		
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
-		//IS IT A PROBLEM THAT AFTER GAME.LOOP IS CALLED, NOTHING ELSEAFTER IT WILL WORK???
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
