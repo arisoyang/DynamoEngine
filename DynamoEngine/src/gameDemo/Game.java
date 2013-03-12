@@ -20,6 +20,7 @@ import Objects.MoveableObject;
 import core.GameAction;
 import core.GameModule;
 import core.MapModule;
+import core.MenuAction;
 
 public class Game {
 
@@ -94,7 +95,10 @@ public class Game {
 					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black240.png");
 				}
 				draw_objs.add(game_objects[x][y].getDrawObj());
+				game_objects[x][y].addContextAction(new teleportAction("Teleport"));
+				game_objects[x][y].addContextAction(new MenuAction("Dig"));
 				game.objects.addObject(game_objects[x][y]);
+				
 			}
 		}
 		

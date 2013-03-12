@@ -133,6 +133,8 @@ public class DrawObject {
 		GameModule.renderer.addUpdatedArea(new Rectangle(_x, _y, _width, _height));
 	}
 	
+	
+	
 	public int getLayer(){
 		return layer;
 	}
