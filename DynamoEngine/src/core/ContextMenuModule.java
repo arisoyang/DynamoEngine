@@ -45,9 +45,9 @@ public class ContextMenuModule{
 	public void clearPopup(){
 		
 			Point a = new Point(0,0);
-			Dimension d = new Dimension (1000,1000);
+			Dimension d = new Dimension (999,999);
 			Rectangle c = new Rectangle(a,d);
-			//GameModule.renderer.addUpdatedArea(c);
+			GameModule.renderer.addUpdatedArea(c);
 			
 	}
 	public void showPopup(Point e){

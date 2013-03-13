@@ -55,6 +55,9 @@ public class GameObject {
 	public int getHeight(){
 		return height;
 	}
+	public void setHeight(int h){
+		height = h;
+	}
 	
 	public DrawObject getDrawObj(){
 		return draw_obj;
