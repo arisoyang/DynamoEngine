@@ -38,6 +38,9 @@ public class GameModule{
 		renderer = new RenderModule(500,520);
 		MAX_FRAME_SKIP=10;
 		REDRAWING_PERIOD=20;
+		contextmenu = new ContextMenuModule();
+		contextmenu.setScreen(renderer);
+		objects.setCMM(contextmenu);
 
 		addListeners();
 	}
@@ -50,6 +53,9 @@ public class GameModule{
 		renderer = new RenderModule(x,y,name);
 		MAX_FRAME_SKIP=10;
 		REDRAWING_PERIOD=20;
+		contextmenu = new ContextMenuModule();
+		contextmenu.setScreen(renderer);
+		objects.setCMM(contextmenu);
 
 		addListeners();
 	}
@@ -83,6 +89,9 @@ public class GameModule{
 		renderer = new RenderModule(500,520);
 		MAX_FRAME_SKIP=10;
 		REDRAWING_PERIOD=reDrawPeriod;
+		contextmenu = new ContextMenuModule();
+		contextmenu.setScreen(renderer);
+		objects.setCMM(contextmenu);
 
 		addListeners();
 	}
@@ -100,6 +109,9 @@ public class GameModule{
 		renderer = new RenderModule(500,520);
 		MAX_FRAME_SKIP=maxSkip;
 		REDRAWING_PERIOD=reDrawPeriod;
+		contextmenu = new ContextMenuModule();
+		contextmenu.setScreen(renderer);
+		objects.setCMM(contextmenu);
 		
 		addListeners();
 	}
