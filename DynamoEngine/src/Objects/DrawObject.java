@@ -92,6 +92,13 @@ public class DrawObject {
 		layer = _layer;
 	}
 	
+	public void setImage(String _img){
+		try {
+		    img = ImageIO.read(new File(_img));
+		} catch (IOException e) {
+		}
+	}
+	
 	public void addList(){
 		list.add(this);
 	}

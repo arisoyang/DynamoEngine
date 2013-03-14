@@ -96,7 +96,7 @@ public class Game {
 				}
 				draw_objs.add(game_objects[x][y].getDrawObj());
 				game_objects[x][y].addContextAction(new teleportAction("Teleport"));
-				game_objects[x][y].addContextAction(new MenuAction("Dig"));
+				game_objects[x][y].addContextAction(new digAction("Dig"));
 				game.objects.addObject(game_objects[x][y]);
 				
 			}
