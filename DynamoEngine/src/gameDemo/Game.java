@@ -44,14 +44,15 @@ public class Game {
 //		System.out.println(new Rectangle(25, 25, 25, 25).intersects(new Rectangle(49, 25, 1, 25)));
 //		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
 
-		mapMod=new MapModule(40,40,7);
-		mapMod.setNumberIterations(10000);
+		mapMod=new MapModule(40,40,4);
+		mapMod.setNumberIterations(1000000);
 		mapMod.setAllFlags(false);
-//		mapMod.setSymmetry(true, 100);
-//		mapMod.setDifference(true, 2);
+		mapMod.setSymmetry(true, 10000);
+//		mapMod.setDifference(true, 100);
 //		mapMod.setMoveability(true, 100);
-		mapMod.setAvgHeight(true, 6,100);
-		mapMod.setTilesPer(1);
+//		mapMod.setAvgHeight(true, 0,100);
+		
+		mapMod.setTilesPer(2);
 		if(args.length==1){
 			mapHeights=mapMod.load(args[0]);
 		}
@@ -65,7 +66,7 @@ public class Game {
 		
 		PriorityQueue<DrawObject> draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 		
-		testunit = new MoveableObject(240, 240, 1, 10, "unit.png", 10);
+		testunit = new MoveableObject(240, 240, 1, 10, "unit.png", 5);
 
 		draw_objs.add(testunit.getDrawObj());
 		
@@ -80,25 +81,7 @@ public class Game {
 		
 		for(int x = 0; x < game_objects.length; x++){
 			for (int y = 0; y < game_objects[x].length; y++){
-				if (mapHeights[x][y]==0){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black.png");
-				}else if (mapHeights[x][y]==1){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black40.png");
-				}
-				else if (mapHeights[x][y]==2){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black80.png");
-				}
-				else if (mapHeights[x][y]==3){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black120.png");
-				}else if (mapHeights[x][y]==4){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black160.png");
-				}
-				else if (mapHeights[x][y]==5){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black200.png");
-				}
-				else if (mapHeights[x][y]==6){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black240.png");
-				}
+				game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "tile" + mapHeights[x][y]+".png");
 				draw_objs.add(game_objects[x][y].getDrawObj());
 				game.objects.addObject(game_objects[x][y]);
 			}
@@ -128,6 +111,7 @@ public class Game {
 		
 		
 		System.out.println("bef");
+		//System.setOut(null);
 		game.loop();
 		System.out.println("aft");
 		

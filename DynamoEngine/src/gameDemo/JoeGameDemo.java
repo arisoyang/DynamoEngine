@@ -11,6 +11,8 @@ import Objects.GameObject;
 import Objects.MoveableObject;
 import core.GameModule;
 import core.MapModule;
+import core.RenderModule;
+import core.Screen;
 
 public class JoeGameDemo {
 
@@ -28,11 +30,12 @@ public class JoeGameDemo {
 	
 	private static GameObject[][] game_objects;
 	private static MapModule mapMod;
+	private static int x=0,y=0;
 	
 	public static void main(String[] args) {
-		genGame("1x1Map10000.txt");
-		genGame("2x2GoodMap.txt");
-		genGame("2x2Map10000.txt");
+		genGame("avgHeight0.txt");
+		genGame("avgHeight6Map.txt");
+		genGame("AvgHeight0WithDifference.txt");
 	}
 	
 	public static void genGame(String fileName){
@@ -42,7 +45,8 @@ public class JoeGameDemo {
 		mapMod.setTilesPer(1);
 		mapHeights=mapMod.load(fileName);
 		
-		game = new GameModule();
+		game = new GameModule(500,500,fileName,x,y);
+		x=x+300;
 		
 		game.addMouseMap(new KeyInformation(0, KeyState.PRESSED), new moveChar());
 		game.addMouseMap(new KeyInformation(2, KeyState.PRESSED), new contextMenu());
@@ -64,25 +68,8 @@ public class JoeGameDemo {
 		
 		for(int x = 0; x < game_objects.length; x++){
 			for (int y = 0; y < game_objects[x].length; y++){
-				if (mapHeights[x][y]==0){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black.png");
-				}else if (mapHeights[x][y]==1){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black40.png");
-				}
-				else if (mapHeights[x][y]==2){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black80.png");
-				}
-				else if (mapHeights[x][y]==3){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black120.png");
-				}else if (mapHeights[x][y]==4){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black160.png");
-				}
-				else if (mapHeights[x][y]==5){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black200.png");
-				}
-				else if (mapHeights[x][y]==6){
-					game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "black240.png");
-				}
+				game_objects[x][y] = new GameObject(x, y, mapHeights[x][y], "tile"+mapHeights[x][y]+".png");
+				
 				draw_objs.add(game_objects[x][y].getDrawObj());
 				game.objects.addObject(game_objects[x][y]);
 			}
@@ -115,12 +102,17 @@ public class JoeGameDemo {
 		//game.loop();
 		game.render();
 		System.out.println("aft");
+	//Screen sc=game.renderer.getScreen();
+	//while(sc.isPaintingTile()){
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	//}
+		draw_objs.clear();
+		game.setDrawObjects(draw_objs);
 		
 	}
 	

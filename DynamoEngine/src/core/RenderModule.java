@@ -28,6 +28,17 @@ public RenderModule(int x,int y){
 	
      redrawAreas = new ArrayList<Rectangle>();
 }
+public RenderModule(int x,int y, String name){
+	this(x,y);
+    setTitle(name);
+}
+public RenderModule(int x,int y, String name,int x2,int y2){
+	this(x,y,name);
+    sc.setLocation(x2, y2);
+    System.out.println("bef: "+ sc.getLocation());
+    System.out.println("Set: "+x2+", "+y2);
+    System.out.println("aft: "+sc.getLocation());
+}
 
 public void update(int a){
 	checkUpdatedAreas();
@@ -42,9 +53,11 @@ public void addUpdatedArea(Rectangle rect){
 public void checkUpdatedAreas(){
 	for (DrawObject i:DrawObject.getList()){
 		for(Rectangle rect:redrawAreas){
-			if (rect.intersects(i.getRect())){
-				addDrawObject(i);
-				break;
+			if (rect != null || i.getRect() != null){
+				if (rect.intersects(i.getRect())){
+					addDrawObject(i);
+					break;
+				}
 			}
 		}
 	}

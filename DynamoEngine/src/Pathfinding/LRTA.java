@@ -80,7 +80,11 @@ public class LRTA {
 		
 		if (f_min == Integer.MAX_VALUE){
 			//trapped
-			subject.setWaypoint(subject.getTarget());
+			if ((goal.getX() == loc.getX()) && (goal.getY() == loc.getY())){
+				subject.setWaypoint(subject.getTarget());				
+			}else{
+				subject.setTarget(subject.getPos());								
+			}
 		}else{
 			if (heuristic_map[loc.getX()][loc.getY()] < f_min){
 				heuristic_map[loc.getX()][loc.getY()] = f_min;
@@ -175,6 +179,9 @@ public class LRTA {
 		for (int a = 0; a < 3; a++){
 			for (int b = 0; b <3; b++){
 				if (valid[a][b]){
+					
+					System.out.println("adding node at "+(x+a-1)+" "+(y+b-1)+" with height "+map[x+a-1][y+b-1].getHeight());
+					
 					neighbors.add(map[x+a-1][y+b-1]);
 				}
 			}

@@ -40,6 +40,30 @@ public class GameModule{
 
 		addListeners();
 	}
+	public GameModule(int x, int y, String name){
+		pathfinding = new PathModule();
+		objects = new ObjectModule();
+		unitai = new AiModule();
+		keyboard=new KeyboardInput();
+		mouse = new MouseInput();
+		renderer = new RenderModule(x,y,name);
+		MAX_FRAME_SKIP=10;
+		REDRAWING_PERIOD=20;
+
+		addListeners();
+	}
+	public GameModule(int x, int y, String name,int screenx,int screeny){
+		pathfinding = new PathModule();
+		objects = new ObjectModule();
+		unitai = new AiModule();
+		keyboard=new KeyboardInput();
+		mouse = new MouseInput();
+		renderer = new RenderModule(x,y,name,screenx,screeny);
+		MAX_FRAME_SKIP=10;
+		REDRAWING_PERIOD=20;
+
+		addListeners();
+	}
 	/**
 	 * 
 	 * @param reDrawPeriod the period that it redraws in
