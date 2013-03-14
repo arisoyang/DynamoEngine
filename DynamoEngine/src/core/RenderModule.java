@@ -38,6 +38,8 @@ public void addUpdatedArea(Rectangle rect){
 	redrawAreas.add(rect);
 }
 
+
+
 public void checkUpdatedAreas(){
 	for (DrawObject i:DrawObject.getList()){
 		for(Rectangle rect:redrawAreas){

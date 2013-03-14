@@ -34,6 +34,7 @@ public class Screen extends JPanel {
 	   
 	   //Paint from whatever
    }
+ 
    public void getState(int a){
 	   temp = a;
 	   return;
