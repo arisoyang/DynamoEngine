@@ -12,7 +12,7 @@ import Objects.DrawObject;
 
 public class RenderModule extends JFrame{
 
-private Screen sc;
+public Screen sc;
 
 private ArrayList<Rectangle> redrawAreas;
 
@@ -22,10 +22,10 @@ public RenderModule(int x,int y){
      setTitle("GameScreen");
      setDefaultCloseOperation(EXIT_ON_CLOSE);
      setSize(x, y);
+
      setLocationRelativeTo(null);
      setVisible(true);
      setResizable(false);
-	
      redrawAreas = new ArrayList<Rectangle>();
 }
 public RenderModule(int x,int y, String name){
@@ -49,6 +49,8 @@ public void update(int a){
 public void addUpdatedArea(Rectangle rect){
 	redrawAreas.add(rect);
 }
+
+
 
 public void checkUpdatedAreas(){
 	for (DrawObject i:DrawObject.getList()){

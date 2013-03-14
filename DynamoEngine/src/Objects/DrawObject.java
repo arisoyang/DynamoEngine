@@ -92,6 +92,13 @@ public class DrawObject {
 		layer = _layer;
 	}
 	
+	public void setImage(String _img){
+		try {
+		    img = ImageIO.read(new File(_img));
+		} catch (IOException e) {
+		}
+	}
+	
 	public void addList(){
 		list.add(this);
 	}
@@ -132,6 +139,8 @@ public class DrawObject {
 	public void addUpdatedArea(int _x, int _y, int _width, int _height){
 		GameModule.renderer.addUpdatedArea(new Rectangle(_x, _y, _width, _height));
 	}
+	
+	
 	
 	public int getLayer(){
 		return layer;

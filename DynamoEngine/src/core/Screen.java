@@ -20,7 +20,8 @@ public class Screen extends JPanel {
 		draw_objs  = new PriorityQueue<DrawObject>(1, new DrawObjectLayerCompare());
 	}
 
-   public void paint(Graphics g) {	 
+   public void paint(Graphics g) {
+	
 	   while (draw_objs.size() != 0){
 		   DrawObject d = draw_objs.poll();
 		  // System.out.println(d.getLayer()+" "+d.getPos());
@@ -28,11 +29,12 @@ public class Screen extends JPanel {
 	   }
 
 	   
-	   //super.paint(g);
+	  //super.paint(g);
 
 	   
 	   //Paint from whatever
    }
+ 
    public void getState(int a){
 	   temp = a;
 	   return;
