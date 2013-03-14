@@ -46,7 +46,7 @@ public class Game {
 //		System.out.println(new Rectangle(24, 24, 26, 26).intersects(new Rectangle(50, 49, 2, 1)));
 
 		mapMod=new MapModule(40,40,4);
-		mapMod.setNumberIterations(1000000);
+		mapMod.setNumberIterations(100);
 		mapMod.setAllFlags(false);
 		mapMod.setSymmetry(true, 10000);
 //		mapMod.setDifference(true, 100);
